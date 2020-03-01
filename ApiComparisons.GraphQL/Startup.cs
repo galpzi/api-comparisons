@@ -1,3 +1,5 @@
+using ApiComparisons.Shared.StarWars;
+using ApiComparisons.Shared.StarWars.Types;
 using GraphQL.Server;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
@@ -9,11 +11,6 @@ using System;
 
 namespace ApiComparisons.GraphQL
 {
-    // TODO: Move to shared project
-    public class ChatSchema : Schema
-    {
-    }
-
     public class Startup
     {
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
@@ -28,10 +25,17 @@ namespace ApiComparisons.GraphQL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ChatSchema>();
+            services.AddSingleton<StarWarsData>();
+            services.AddSingleton<StarWarsQuery>();
+            services.AddSingleton<StarWarsMutation>();
+            services.AddSingleton<DroidType>();
+            services.AddSingleton<HumanType>();
+            services.AddSingleton<EpisodeEnum>();
+            services.AddSingleton<HumanInputType>();
+            services.AddSingleton<CharacterInterface>();
+            services.AddSingleton<ISchema, StarWarsSchema>();
 
-            services.AddLogging();            
-
+            services.AddLogging();
             services.AddGraphQL(options =>
             {
                 options.EnableMetrics = Environment.IsDevelopment();
@@ -39,7 +43,7 @@ namespace ApiComparisons.GraphQL
                 options.UnhandledExceptionDelegate = context => Console.WriteLine($"Error: {context.OriginalException}");
             })
                 .AddSystemTextJson(deserializerSettings => { }, serializerSettings => { })
-                .AddGraphTypes(typeof(ChatSchema));
+                .AddGraphTypes(typeof(StarWarsSchema));
             //.AddWebSockets() // Add GraphQL.Server.Transports.WebSockets package for websockets support
             //.AddDataLoader();                            
         }
@@ -55,7 +59,7 @@ namespace ApiComparisons.GraphQL
             // app.UseWebSockets(); // for websockets support
             // app.UseGraphQLWebSockets<Schema>("/graphql");
 
-            app.UseGraphQL<ChatSchema>("/graphql");
+            app.UseGraphQL<ISchema>("/graphql");
         }
     }
 }

@@ -12,6 +12,7 @@ namespace ApiComparisons.Shared.StarWars
             Name = "Query";
 
             Field<CharacterInterface>("hero", resolve: context => data.GetDroidByIdAsync("3"));
+
             Field<HumanType>(
                 "human",
                 arguments: new QueryArguments(
@@ -19,6 +20,11 @@ namespace ApiComparisons.Shared.StarWars
                 ),
                 resolve: context => data.GetHumanByIdAsync(context.GetArgument<string>("id"))
             );
+
+            Field<ListGraphType<HumanType>>(
+                name: "humans",
+                resolve: context => data.GetHumansAsync()
+                );
 
             Func<IResolveFieldContext, string, object> func = (context, id) => data.GetDroidByIdAsync(id);
 

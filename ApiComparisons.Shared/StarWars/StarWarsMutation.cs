@@ -28,8 +28,21 @@ namespace ApiComparisons.Shared.StarWars
                 ),
                 resolve: context =>
                 {
-                    var human = context.GetArgument<Human>("human");
+                    Human human = context.GetArgument<Human>("human");
                     return data.AddHuman(human);
+                });
+
+            Field<HumanType>(
+                name: "deleteHuman",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<HumanInputType>>
+                    {
+                        Name = "human"
+                    }),
+                resolve: context =>
+                {
+                    Human human = context.GetArgument<Human>("human");
+                    return data.RemoveHuman(human);
                 });
         }
     }

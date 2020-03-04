@@ -64,6 +64,11 @@ namespace ApiComparisons.Shared.StarWars
             return friends;
         }
 
+        public Task<List<Human>> GetHumansAsync()
+        {
+            return Task.FromResult(_humans.ToList());
+        }
+
         public Task<Human> GetHumanByIdAsync(string id)
         {
             return Task.FromResult(_humans.FirstOrDefault(h => h.Id == id));
@@ -72,6 +77,17 @@ namespace ApiComparisons.Shared.StarWars
         public Task<Droid> GetDroidByIdAsync(string id)
         {
             return Task.FromResult(_droids.FirstOrDefault(h => h.Id == id));
+        }
+
+        public Human RemoveHuman(Human human)
+        {
+            Human existing = _humans.FirstOrDefault(o => o.Id == human.Id);
+            if (existing is null)
+            {
+                throw new ArgumentException($"Unable to find human with ID: {human.Id}, name: {human.Name}");
+            }
+            _humans.Remove(existing);
+            return existing;
         }
 
         public Human AddHuman(Human human)

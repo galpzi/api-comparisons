@@ -2,7 +2,7 @@
 
 namespace ApiComparisons.Shared.StarWars.Types
 {
-    public class CharacterInterface : InterfaceGraphType<StarWarsCharacter>
+    public class CharacterInterface : InterfaceGraphType<Character>
     {
         public CharacterInterface()
         {

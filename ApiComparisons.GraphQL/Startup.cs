@@ -44,7 +44,9 @@ namespace ApiComparisons.GraphQL
             })
                 .AddSystemTextJson(deserializerSettings => { }, serializerSettings => { })
                 .AddGraphTypes(typeof(StarWarsSchema));
-            //.AddWebSockets() // Add GraphQL.Server.Transports.WebSockets package for websockets support
+
+            // Add GraphQL.Server.Transports.WebSockets package for websockets support
+            //.AddWebSockets()
             //.AddDataLoader();                            
         }
 
@@ -56,7 +58,7 @@ namespace ApiComparisons.GraphQL
                 app.UseDeveloperExceptionPage();
             }
 
-            // app.UseWebSockets(); // for websockets support
+            // app.UseWebSockets();
             // app.UseGraphQLWebSockets<Schema>("/graphql");
 
             app.UseGraphQL<ISchema>("/graphql");

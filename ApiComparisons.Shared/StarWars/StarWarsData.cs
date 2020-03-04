@@ -47,14 +47,14 @@ namespace ApiComparisons.Shared.StarWars
             });
         }
 
-        public IEnumerable<StarWarsCharacter> GetFriends(StarWarsCharacter character)
+        public IEnumerable<Character> GetFriends(Character character)
         {
             if (character == null)
             {
                 return null;
             }
 
-            var friends = new List<StarWarsCharacter>();
+            var friends = new List<Character>();
             var lookup = character.Friends;
             if (lookup != null)
             {

@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option csharp_namespace = "ApiComparisons.Shared.Protos";
+
+package starwars;
+
+// The Star Wars service definition.
+service StarWars {
+  // Returns a character
+  rpc GetCharacter (CharacterRequest) returns (CharacterResponse);
+}
+
+// The request containing the character's id and/or name
+message CharacterRequest {
+    string id = 1;
+    string name = 2;
+}
+
+// The response containing the character
+message CharacterResponse { 
+    Character character = 1;
+}
+
+// The Star Wars character
+message Character {
+    string id = 1;
+    string name = 2;
+    repeated Character friends = 3;
+    repeated Episode appears_in = 4;
+}
+
+// The episode a character appeared in
+enum Episode {
+    NEWHOPE = 0;
+    EMPIRE = 1;
+    JEDI = 2;
+}

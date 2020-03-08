@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "character.proto";
+
+option csharp_namespace = "ApiComparisons.Shared.StarWars.GRPC.Characters";
+
+package starwars.droid;
+
+// The Star Wars Human droid
+message Droid {    
+    character.Character character = 1;
+    string primary_function = 2;
+}
+
+// The request containing the droid
+message DroidRequest {
+    Droid droid = 1;
+}
+
+// The response containing the droid
+message DroidResponse {
+    Droid droid = 1;
+}

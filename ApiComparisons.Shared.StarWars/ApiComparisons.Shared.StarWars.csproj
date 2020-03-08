@@ -9,19 +9,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="gRPC\Protos\StarWars\droid.proto">
+    <None Update="GRPC\Protos\character.proto">
       <GrpcServices>Client</GrpcServices>
     </None>
-    <None Update="gRPC\Protos\StarWars\human.proto">
+    <None Update="GRPC\Protos\droid.proto">
       <GrpcServices>Client</GrpcServices>
     </None>
-    <None Update="gRPC\Protos\StarWars\character.proto">
+    <None Update="GRPC\Protos\human.proto">
       <GrpcServices>Client</GrpcServices>
     </None>
-    <None Update="gRPC\Protos\StarWars\service.proto">
-      <GrpcServices>Client</GrpcServices>
-    </None>
-    <None Update="gRPC\Protos\greet.proto">
+    <None Update="GRPC\Protos\service.proto">
       <GrpcServices>Client</GrpcServices>
     </None>
   </ItemGroup>

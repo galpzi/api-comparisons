@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiComparisons.GraphQL", "A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiComparisons.Shared", "ApiComparisons.Shared\ApiComparisons.Shared.csproj", "{EACDAD1A-D0F5-4BA5-874B-8F445126E491}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiComparisons.Grpc.Client", "ApiComparisons.Grpc.Client\ApiComparisons.Grpc.Client.csproj", "{63061D8A-C6D9-474F-A0A5-F50563515E92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiComparisons.Grpc.Client", "ApiComparisons.Grpc.Client\ApiComparisons.Grpc.Client.csproj", "{63061D8A-C6D9-474F-A0A5-F50563515E92}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiComparisons.Shared.StarWars", "ApiComparisons.Shared.StarWars\ApiComparisons.Shared.StarWars.csproj", "{13AFED87-8BBB-4538-82E7-9F6276B8EAE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{63061D8A-C6D9-474F-A0A5-F50563515E92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63061D8A-C6D9-474F-A0A5-F50563515E92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63061D8A-C6D9-474F-A0A5-F50563515E92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13AFED87-8BBB-4538-82E7-9F6276B8EAE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13AFED87-8BBB-4538-82E7-9F6276B8EAE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13AFED87-8BBB-4538-82E7-9F6276B8EAE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13AFED87-8BBB-4538-82E7-9F6276B8EAE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

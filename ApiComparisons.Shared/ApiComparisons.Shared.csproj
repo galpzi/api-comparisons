@@ -9,7 +9,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Protos\starwars.proto">
+    <None Update="Protos\StarWars\droid.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="Protos\StarWars\human.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="Protos\StarWars\character.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="Protos\StarWars\starwars.proto">
       <GrpcServices>Client</GrpcServices>
     </None>
     <None Update="Protos\greet.proto">

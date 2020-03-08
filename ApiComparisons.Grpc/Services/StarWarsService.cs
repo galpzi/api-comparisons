@@ -1,4 +1,5 @@
-﻿using ApiComparisons.Shared.Protos;
+﻿using ApiComparisons.Shared.Protos.StarWars;
+using ApiComparisons.Shared.Protos.StarWars.Characters;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -27,6 +28,26 @@ namespace ApiComparisons.Grpc
             {
                 Character = character
             });
+        }
+
+        public override Task<HumanResponse> GetHuman(HumanRequest request, ServerCallContext context)
+        {
+            return base.GetHuman(request, context);
+        }
+
+        public override Task<HumanResponse> CreateHuman(HumanRequest request, ServerCallContext context)
+        {
+            return base.CreateHuman(request, context);
+        }
+
+        public override Task<HumanResponse> DeleteHuman(HumanRequest request, ServerCallContext context)
+        {
+            return base.DeleteHuman(request, context);
+        }
+
+        public override Task<DroidResponse> GetDroid(DroidRequest request, ServerCallContext context)
+        {
+            return base.GetDroid(request, context);
         }
     }
 }

@@ -13,8 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\ApiComparisons.Shared\Protos\greet.proto" Link="greet.proto" GrpcServices="Server" />
-    <Protobuf Include="..\ApiComparisons.Shared\Protos\starwars.proto" Link="starwars.proto" GrpcServices="Server" />
+    <Protobuf Include="..\ApiComparisons.Shared\Protos\greet.proto" Link="greet.proto" ProtoRoot="..\ApiComparisons.Shared\Protos\" GrpcServices="Server" />   
+    <!--Include all Star Wars protobufs-->
+    <Protobuf Include="..\ApiComparisons.Shared\Protos\StarWars\*.proto" ProtoRoot="..\ApiComparisons.Shared\Protos\StarWars\" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

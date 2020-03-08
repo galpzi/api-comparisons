@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "character.proto";
+import "human.proto";
+import "droid.proto";
+
+option csharp_namespace = "ApiComparisons.Shared.Protos.StarWars";
+
+package starwars;
+
+// The Star Wars service definition.
+service StarWars {
+  // Returns a character
+  rpc GetCharacter (character.CharacterRequest) returns (character.CharacterResponse);
+  // Returns a human
+  rpc GetHuman (human.HumanRequest) returns (human.HumanResponse);
+  // Creates a human
+  rpc CreateHuman (human.HumanRequest) returns (human.HumanResponse);
+  // Deletes a human
+  rpc DeleteHuman (human.HumanRequest) returns (human.HumanResponse);
+  // Returns a droid
+  rpc GetDroid (droid.DroidRequest) returns (droid.DroidResponse);
+}

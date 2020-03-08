@@ -15,7 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\greet.proto" GrpcServices="Client" />
+    <ProjectReference Include="..\ApiComparisons.Shared\ApiComparisons.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\ApiComparisons.Shared\Protos\greet.proto" Link="greet.proto" GrpcServices="Client" />
   </ItemGroup>
 
 </Project>

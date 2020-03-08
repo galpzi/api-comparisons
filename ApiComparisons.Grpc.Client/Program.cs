@@ -1,4 +1,5 @@
-﻿using Grpc.Net.Client;
+﻿using ApiComparisons.Shared.Protos;
+using Grpc.Net.Client;
 using System;
 using System.Threading.Tasks;
 

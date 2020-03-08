@@ -2,7 +2,7 @@
 using GraphQL.Utilities;
 using System;
 
-namespace ApiComparisons.Shared.StarWars
+namespace ApiComparisons.Shared.GraphQL.StarWars
 {
     public class StarWarsSchema : Schema
     {

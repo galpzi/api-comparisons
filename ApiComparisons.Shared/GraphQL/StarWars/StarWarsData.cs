@@ -1,11 +1,11 @@
-﻿using ApiComparisons.Shared.StarWars.Types;
+﻿using ApiComparisons.Shared.GraphQL.StarWars.Types;
 using GraphQL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ApiComparisons.Shared.StarWars
+namespace ApiComparisons.Shared.GraphQL.StarWars
 {
     public class StarWarsData
     {

@@ -1,4 +1,4 @@
-﻿namespace ApiComparisons.Shared.StarWars.Types
+﻿namespace ApiComparisons.Shared.GraphQL.StarWars.Types
 {
     public abstract class Character
     {

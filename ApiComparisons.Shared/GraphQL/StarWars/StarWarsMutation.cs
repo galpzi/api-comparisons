@@ -1,8 +1,8 @@
-﻿using ApiComparisons.Shared.StarWars.Types;
+﻿using ApiComparisons.Shared.GraphQL.StarWars.Types;
 using GraphQL;
 using GraphQL.Types;
 
-namespace ApiComparisons.Shared.StarWars
+namespace ApiComparisons.Shared.GraphQL.StarWars
 {
     /// <example>
     /// This is an example JSON request for a mutation

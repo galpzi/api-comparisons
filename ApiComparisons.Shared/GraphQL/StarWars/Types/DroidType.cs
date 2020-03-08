@@ -1,6 +1,6 @@
 ﻿using GraphQL.Types;
 
-namespace ApiComparisons.Shared.StarWars.Types
+namespace ApiComparisons.Shared.GraphQL.StarWars.Types
 {
     public class DroidType : ObjectGraphType<Droid>
     {

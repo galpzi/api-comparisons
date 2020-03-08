@@ -18,7 +18,7 @@
     <None Update="Protos\StarWars\character.proto">
       <GrpcServices>Client</GrpcServices>
     </None>
-    <None Update="Protos\StarWars\starwars.proto">
+    <None Update="Protos\StarWars\service.proto">
       <GrpcServices>Client</GrpcServices>
     </None>
     <None Update="Protos\greet.proto">

@@ -1,5 +1,5 @@
-﻿using ApiComparisons.Shared.Protos.StarWars;
-using ApiComparisons.Shared.Protos.StarWars.Characters;
+﻿using ApiComparisons.Shared.StarWars.GRPC;
+using ApiComparisons.Shared.StarWars.GRPC.Characters;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;

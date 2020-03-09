@@ -9,13 +9,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ApiComparisons.Shared.StarWars\ApiComparisons.Shared.StarWars.csproj" />
     <ProjectReference Include="..\ApiComparisons.Shared\ApiComparisons.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\ApiComparisons.Shared\gRPC\Protos\greet.proto" Link="greet.proto" GrpcServices="Server" />   
+    <Protobuf Include="..\ApiComparisons.Shared\Protos\greet.proto" Link="greet.proto" GrpcServices="Server" />
     <!--Include all Star Wars protobufs-->
-    <Protobuf Include="..\ApiComparisons.Shared\gRPC\Protos\StarWars\*.proto" ProtoRoot="..\ApiComparisons.Shared\gRPC\Protos\StarWars\" GrpcServices="Server" />
+    <Protobuf Include="..\ApiComparisons.Shared.StarWars\GRPC\Protos\*.proto" ProtoRoot="..\ApiComparisons.Shared.StarWars\GRPC\Protos\" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

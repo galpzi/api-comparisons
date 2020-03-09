@@ -1,6 +1,6 @@
 ﻿using ApiComparisons.Shared.Protos;
-using ApiComparisons.Shared.Protos.StarWars;
-using ApiComparisons.Shared.Protos.StarWars.Characters;
+using ApiComparisons.Shared.StarWars.GRPC;
+using ApiComparisons.Shared.StarWars.GRPC.Characters;
 using Grpc.Net.Client;
 using System;
 using System.Threading.Tasks;

@@ -1,5 +1,5 @@
-using ApiComparisons.Shared.GraphQL.StarWars;
-using ApiComparisons.Shared.GraphQL.StarWars.Types;
+using ApiComparisons.Shared.StarWars.GraphQL;
+using ApiComparisons.Shared.StarWars.GraphQL.Types;
 using GraphQL.Server;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;

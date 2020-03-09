@@ -8,22 +8,4 @@
     <PackageReference Include="GraphQL" Version="3.0.0-preview-1490" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="gRPC\Protos\StarWars\droid.proto">
-      <GrpcServices>Client</GrpcServices>
-    </None>
-    <None Update="gRPC\Protos\StarWars\human.proto">
-      <GrpcServices>Client</GrpcServices>
-    </None>
-    <None Update="gRPC\Protos\StarWars\character.proto">
-      <GrpcServices>Client</GrpcServices>
-    </None>
-    <None Update="gRPC\Protos\StarWars\service.proto">
-      <GrpcServices>Client</GrpcServices>
-    </None>
-    <None Update="gRPC\Protos\greet.proto">
-      <GrpcServices>Client</GrpcServices>
-    </None>
-  </ItemGroup>
-
 </Project>

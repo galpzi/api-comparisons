@@ -1,4 +1,5 @@
-﻿using ApiComparisons.Shared.StarWars.GraphQL.Types;
+﻿using ApiComparisons.Shared.StarWars.DAL;
+using ApiComparisons.Shared.StarWars.GraphQL.Types;
 using GraphQL;
 using GraphQL.Types;
 using System;
@@ -7,34 +8,33 @@ namespace ApiComparisons.Shared.StarWars.GraphQL
 {
     public class StarWarsQuery : ObjectGraphType<object>
     {
-        public StarWarsQuery(StarWarsData data)
+        public StarWarsQuery(IStarWarsRepo repo)
         {
             Name = "Query";
 
-            Field<CharacterInterface>("hero", resolve: context => data.GetDroidByIdAsync("3"));
+            Field<ListGraphType<HumanType>>(
+                name: "humans",
+                resolve: context => repo.GetHumansAsync()
+                );
 
             Field<HumanType>(
-                "human",
+                name: "human",
                 arguments: new QueryArguments(
                     new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "id", Description = "id of the human" }
                 ),
-                resolve: context => data.GetHumanByIdAsync(context.GetArgument<string>("id"))
+                resolve: context => repo.GetHumanAsync(context.GetArgument<Guid>("id"))
             );
 
-            Field<ListGraphType<HumanType>>(
-                name: "humans",
-                resolve: context => data.GetHumansAsync()
+            Field<ListGraphType<DroidType>>(
+                name: "droids",
+                resolve: context => repo.GetDroidsAsync()
                 );
 
-            Func<IResolveFieldContext, string, object> func = (context, id) => data.GetDroidByIdAsync(id);
-
-            FieldDelegate<DroidType>(
-                "droid",
+            Field<DroidType>(
+                name: "droid",
                 arguments: new QueryArguments(
-                    new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "id", Description = "id of the droid" }
-                ),
-                resolve: func
-            );
+                    new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "id", Description = "droid ID" }),
+                resolve: context => repo.GetDroidAsync(context.GetArgument<Guid>("id")));
         }
     }
 }

@@ -1,11 +1,12 @@
-﻿using ApiComparisons.Shared.StarWars.Models;
+﻿using ApiComparisons.Shared.StarWars.DAL;
+using ApiComparisons.Shared.StarWars.Models;
 using GraphQL.Types;
 
 namespace ApiComparisons.Shared.StarWars.GraphQL.Types
 {
     public class HumanType : ObjectGraphType<Human>
     {
-        public HumanType(StarWarsData data)
+        public HumanType(IStarWarsRepo repo)
         {
             Name = "Human";
 
@@ -14,7 +15,7 @@ namespace ApiComparisons.Shared.StarWars.GraphQL.Types
 
             Field<ListGraphType<CharacterInterface>>(
                 "friends",
-                resolve: context => data.GetFriends(context.Source)
+                resolve: context => repo.GetFriendsAsync(context.Source)
             );
             Field<ListGraphType<EpisodeEnum>>("appearsIn", "Which movie they appear in.");
 

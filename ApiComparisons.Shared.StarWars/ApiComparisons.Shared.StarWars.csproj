@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GraphQL" Version="3.0.0-preview-1490" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="GRPC\Protos\character.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="GRPC\Protos\droid.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="GRPC\Protos\human.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="GRPC\Protos\service.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+  </ItemGroup>
+
+</Project>

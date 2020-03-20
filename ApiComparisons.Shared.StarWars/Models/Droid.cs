@@ -1,4 +1,4 @@
-﻿namespace ApiComparisons.Shared.StarWars.Types
+﻿namespace ApiComparisons.Shared.StarWars.Models
 {
     public class Droid : Character
     {

@@ -1,15 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
+    <ProjectReference Include="..\ApiComparisons.Shared.StarWars\ApiComparisons.Shared.StarWars.csproj" />
+    <ProjectReference Include="..\ApiComparisons.Shared\ApiComparisons.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\ApiComparisons.Shared\Protos\greet.proto" Link="greet.proto" GrpcServices="Server" />
+    <!--Include all Star Wars protobufs-->
+    <Protobuf Include="..\ApiComparisons.Shared.StarWars\GRPC\Protos\*.proto" ProtoRoot="..\ApiComparisons.Shared.StarWars\GRPC\Protos\" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

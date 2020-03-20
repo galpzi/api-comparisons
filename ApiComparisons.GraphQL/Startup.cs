@@ -1,9 +1,11 @@
-using ApiComparisons.Shared.StarWars;
-using ApiComparisons.Shared.StarWars.Types;
+using ApiComparisons.Shared.StarWars.DAL;
+using ApiComparisons.Shared.StarWars.GraphQL;
+using ApiComparisons.Shared.StarWars.GraphQL.Types;
 using GraphQL.Server;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +27,11 @@ namespace ApiComparisons.GraphQL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<StarWarsData>();
+            services.AddSingleton(provider => new StarWarsContext(new DbContextOptionsBuilder<StarWarsContext>()
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .Options));
+
+            services.AddSingleton<IStarWarsRepo, StarWarsRepo>();
             services.AddSingleton<StarWarsQuery>();
             services.AddSingleton<StarWarsMutation>();
             services.AddSingleton<DroidType>();

@@ -1,8 +1,10 @@
-﻿using ApiComparisons.Shared.StarWars.Types;
+﻿using ApiComparisons.Shared.StarWars.DAL;
+using ApiComparisons.Shared.StarWars.GraphQL.Types;
+using ApiComparisons.Shared.StarWars.Models;
 using GraphQL;
 using GraphQL.Types;
 
-namespace ApiComparisons.Shared.StarWars
+namespace ApiComparisons.Shared.StarWars.GraphQL
 {
     /// <example>
     /// This is an example JSON request for a mutation
@@ -17,7 +19,7 @@ namespace ApiComparisons.Shared.StarWars
     /// </example>
     public class StarWarsMutation : ObjectGraphType
     {
-        public StarWarsMutation(StarWarsData data)
+        public StarWarsMutation(IStarWarsRepo repo)
         {
             Name = "Mutation";
 
@@ -29,7 +31,7 @@ namespace ApiComparisons.Shared.StarWars
                 resolve: context =>
                 {
                     Human human = context.GetArgument<Human>("human");
-                    return data.AddHuman(human);
+                    return repo.AddHumanAsync(human);
                 });
 
             Field<HumanType>(
@@ -42,7 +44,7 @@ namespace ApiComparisons.Shared.StarWars
                 resolve: context =>
                 {
                     Human human = context.GetArgument<Human>("human");
-                    return data.RemoveHuman(human);
+                    return repo.DeleteHumanAsync(human);
                 });
         }
     }

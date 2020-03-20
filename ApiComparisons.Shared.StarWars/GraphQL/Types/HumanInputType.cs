@@ -1,6 +1,7 @@
-﻿using GraphQL.Types;
+﻿using ApiComparisons.Shared.StarWars.Models;
+using GraphQL.Types;
 
-namespace ApiComparisons.Shared.StarWars.Types
+namespace ApiComparisons.Shared.StarWars.GraphQL.Types
 {
     public class HumanInputType : InputObjectGraphType<Human>
     {

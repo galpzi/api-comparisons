@@ -1,7 +1,7 @@
 ﻿using GraphQL.Validation;
 using System.Threading.Tasks;
 
-namespace ApiComparisons.Shared.StarWars
+namespace ApiComparisons.Shared.StarWars.GraphQL
 {
     public class InputValidationRule : IValidationRule
     {

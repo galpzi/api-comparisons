@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiComparisons.Shared", "Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiComparisons.Grpc.Client", "ApiComparisons.Grpc.Client\ApiComparisons.Grpc.Client.csproj", "{63061D8A-C6D9-474F-A0A5-F50563515E92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiComparisons.Shared.StarWars", "ApiComparisons.Shared.StarWars\ApiComparisons.Shared.StarWars.csproj", "{13AFED87-8BBB-4538-82E7-9F6276B8EAE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiComparisons.Shared.StarWars", "ApiComparisons.Shared.StarWars\ApiComparisons.Shared.StarWars.csproj", "{13AFED87-8BBB-4538-82E7-9F6276B8EAE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiComparisons.SharedTests", "ApiComparisons.SharedTests\ApiComparisons.SharedTests.csproj", "{EAD88A60-F9D9-40A5-ADAF-95BFFC3F3567}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{13AFED87-8BBB-4538-82E7-9F6276B8EAE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13AFED87-8BBB-4538-82E7-9F6276B8EAE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13AFED87-8BBB-4538-82E7-9F6276B8EAE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAD88A60-F9D9-40A5-ADAF-95BFFC3F3567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAD88A60-F9D9-40A5-ADAF-95BFFC3F3567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAD88A60-F9D9-40A5-ADAF-95BFFC3F3567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAD88A60-F9D9-40A5-ADAF-95BFFC3F3567}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

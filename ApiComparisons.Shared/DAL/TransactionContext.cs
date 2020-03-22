@@ -28,7 +28,7 @@ namespace ApiComparisons.Shared.DAL
                 .WithOne(o => o.Store)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Product>().HasKey(o => o.ID);
+            modelBuilder.Entity<Product>().HasKey(o => new { o.ID });
 
             modelBuilder.Entity<Transaction>().HasKey(o => new { o.ID, o.PersonID });
             modelBuilder.Entity<Transaction>()

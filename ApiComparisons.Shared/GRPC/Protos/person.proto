@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "ApiComparisons.Shared.GRPC.Models";
+
+package transactions.person;
+
+// The Transactions Person model
+message Person {    
+    string id = 1;
+    string name = 2;
+    google.protobuf.Timestamp created = 3;    
+}
+
+// The request containing the person id
+message PersonRequest {
+    string id = 1;
+}
+
+// The response containing the person
+message PersonResponse {
+    Person person = 1;
+}

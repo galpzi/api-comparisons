@@ -9,4 +9,16 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="GRPC\Protos\people.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="GRPC\Protos\person.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="GRPC\Protos\transactions.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+  </ItemGroup>
+
 </Project>

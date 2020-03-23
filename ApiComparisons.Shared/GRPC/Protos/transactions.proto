@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "person.proto";
+import "people.proto";
+import "google/protobuf/empty.proto";
+
+option csharp_namespace = "ApiComparisons.Shared.GRPC";
+
+package transactions;
+
+// The Transactions service definition.
+service Transactions {
+  // Returns a person
+  rpc GetPerson (person.PersonRequest) returns (person.PersonResponse);  
+  // Returns people
+  rpc GetPeople (google.protobuf.Empty) returns (people.PeopleResponse);
+}

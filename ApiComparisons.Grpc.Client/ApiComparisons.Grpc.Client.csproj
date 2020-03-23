@@ -20,7 +20,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\ApiComparisons.Shared\Protos\greet.proto" Link="greet.proto" GrpcServices="Client" />
+    <!--Include all Transactions protobufs-->
+    <Protobuf Include="..\ApiComparisons.Shared\GRPC\Protos\*.proto" ProtoRoot="..\ApiComparisons.Shared\GRPC\Protos\" GrpcServices="Client" />
+    <!--Sample greet protobuf-->
+    <!--<Protobuf Include="..\ApiComparisons.Shared\GRPC\Protos\greet.proto" Link="greet.proto" GrpcServices="Client" />-->
     <!--Include all Star Wars protobufs-->
     <Protobuf Include="..\ApiComparisons.Shared.StarWars\GRPC\Protos\*.proto" ProtoRoot="..\ApiComparisons.Shared.StarWars\GRPC\Protos\" GrpcServices="Client" />
   </ItemGroup>

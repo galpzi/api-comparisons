@@ -6,7 +6,7 @@ namespace ApiComparisons.Shared.GraphQL
     {
         public TransactionMutation(ITransactionRepo repo)
         {
-            Name = "Mutation";
+            Name = "TransactionsMutation";
         }
     }
 }

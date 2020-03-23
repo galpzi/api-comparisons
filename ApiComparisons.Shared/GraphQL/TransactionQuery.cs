@@ -9,14 +9,13 @@ namespace ApiComparisons.Shared.GraphQL
     {
         public TransactionQuery(ITransactionRepo repo)
         {
-            Name = "Query";
+            Name = "TransactionsQuery";
+            Field<ListGraphType<PersonType>>(name: "people", resolve: context => repo.GetPeopleAsync());
+            Field<ListGraphType<TransactionType>>(name: "transactions", resolve: context => repo.GetTransactionsAsync());
             Field<PersonType>(
                 name: "person",
                 arguments: new QueryArguments(new QueryArgument<NonNullGraphType<GuidGraphType>> { Name = "id", Description = "The persons's ID." }),
                 resolve: context => repo.GetPersonAsync(context.GetArgument<Guid>(name: "id")));
-            Field<ListGraphType<TransactionType>>(
-                name: "transactions",
-                resolve: context => repo.GetTransactionsAsync());
         }
     }
 }

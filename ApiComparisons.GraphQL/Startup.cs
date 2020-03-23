@@ -1,6 +1,7 @@
-using ApiComparisons.Shared.StarWars.DAL;
-using ApiComparisons.Shared.StarWars.GraphQL;
-using ApiComparisons.Shared.StarWars.GraphQL.Types;
+using ApiComparisons.Shared;
+using ApiComparisons.Shared.DAL;
+using ApiComparisons.Shared.GraphQL;
+using ApiComparisons.Shared.GraphQL.Types;
 using GraphQL.Server;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
@@ -27,19 +28,26 @@ namespace ApiComparisons.GraphQL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(provider => new StarWarsContext(new DbContextOptionsBuilder<StarWarsContext>()
+            // TODO: move to IHostedService
+            var options = new DbContextOptionsBuilder<TransactionContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-                .Options));
+                .Options;
+            using var context = new TransactionContext(options);
+            var initializer = new ContextInitializer(
+                persons: 1,
+                stores: 1,
+                products: 10,
+                purchases: 1,
+                transactions: 1);
+            initializer.Seed(context);
 
-            services.AddSingleton<IStarWarsRepo, StarWarsRepo>();
-            services.AddSingleton<StarWarsQuery>();
-            services.AddSingleton<StarWarsMutation>();
-            services.AddSingleton<DroidType>();
-            services.AddSingleton<HumanType>();
-            services.AddSingleton<EpisodeEnum>();
-            services.AddSingleton<HumanInputType>();
-            services.AddSingleton<CharacterInterface>();
-            services.AddSingleton<ISchema, StarWarsSchema>();
+            services.AddSingleton(provider => new TransactionContext(options));
+            services.AddSingleton<ITransactionRepo, TransactionRepo>();
+            services.AddSingleton<TransactionQuery>();
+            services.AddSingleton<TransactionMutation>();
+            services.AddSingleton<PersonType>();
+            services.AddSingleton<TransactionType>();
+            services.AddSingleton<ISchema, TransactionSchema>();
 
             services.AddLogging();
             services.AddGraphQL(options =>
@@ -49,7 +57,7 @@ namespace ApiComparisons.GraphQL
                 options.UnhandledExceptionDelegate = context => Console.WriteLine($"Error: {context.OriginalException}");
             })
                 .AddSystemTextJson(deserializerSettings => { }, serializerSettings => { })
-                .AddGraphTypes(typeof(StarWarsSchema));
+                .AddGraphTypes(typeof(TransactionSchema));
 
             // Add GraphQL.Server.Transports.WebSockets package for websockets support
             //.AddWebSockets()

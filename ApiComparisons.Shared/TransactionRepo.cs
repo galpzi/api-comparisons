@@ -31,9 +31,19 @@ namespace ApiComparisons.Shared
             return await this.context.Persons.ToListAsync();
         }
 
+        public async Task<Store> GetStoreAsync(Product product)
+        {
+            return await this.context.Stores.FindAsync(product.StoreID);
+        }
+
         public async Task<Person> GetPersonAsync(Guid id)
         {
             return await this.context.Persons.FindAsync(id);
+        }
+
+        public async Task<Product> GetProductAsync(Purchase purchase)
+        {
+            return await this.context.Products.FindAsync(purchase.ProductID);
         }
 
         public async Task<IEnumerable<Transaction>> GetTransactionsAsync()
@@ -45,6 +55,13 @@ namespace ApiComparisons.Shared
         {
             return await this.context.Transactions
                 .Where(o => o.PersonID == person.ID)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Purchase>> GetPurchasesAsync(Transaction transaction)
+        {
+            return await this.context.Purchases
+                .Where(o => o.TransactionID == transaction.ID)
                 .ToListAsync();
         }
     }

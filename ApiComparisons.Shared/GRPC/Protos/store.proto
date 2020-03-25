@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "product.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "ApiComparisons.Shared.GRPC.Models";
+
+package transactions.store;
+
+// The Transactions Store model
+message Store {
+    string id = 1;
+    string name = 2;
+    string country = 3;    
+    string address = 4;    
+    google.protobuf.Timestamp created = 5;    
+}
+
+// The request containing the product
+message StoreRequest {
+    product.Product product = 1;
+}
+
+// The response containing the store
+message StoreResponse { 
+    Store store = 1;
+}

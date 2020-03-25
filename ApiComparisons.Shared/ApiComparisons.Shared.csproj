@@ -6,6 +6,28 @@
 
   <ItemGroup>
     <PackageReference Include="GraphQL" Version="3.0.0-preview-1490" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="GRPC\Protos\store.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="GRPC\Protos\product.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="GRPC\Protos\purchase.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="GRPC\Protos\transaction.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="GRPC\Protos\person.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="GRPC\Protos\transactions-service.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
   </ItemGroup>
 
 </Project>

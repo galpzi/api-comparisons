@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+import "purchase.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "ApiComparisons.Shared.GRPC.Models";
+
+package transactions.product;
+
+// The Transactions Product model
+message Product {
+    string id = 1;
+    string store_id = 2;
+    string name = 3;    
+    // Use integers instead of decimals since there
+    // are no WellKnownTypes that handle money yet
+    int32 price = 4;
+    string description = 5;
+    google.protobuf.Timestamp created = 6;    
+}
+
+// The request containing the purchase
+message ProductRequest {
+    purchase.Purchase purchase = 1;
+}
+
+// The response containing the product
+message ProductResponse { 
+    Product product = 1;
+}

@@ -23,7 +23,8 @@ namespace ApiComparisons.Grpc
 
         public override async Task<PersonResponse> GetPerson(PersonRequest request, ServerCallContext context)
         {
-            if (!Guid.TryParse(request.Id, out Guid id)) throw new ArgumentException($"invalid person id {request.Id}");
+            if (!Guid.TryParse(request.Id, out Guid id))
+                throw new ArgumentException($"invalid person id {request.Id}");
 
             var person = await this.repo.GetPersonAsync(id);
             return new PersonResponse

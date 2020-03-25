@@ -18,7 +18,12 @@ message PersonRequest {
     string id = 1;
 }
 
-// The response containing the person
+// The response containing a single person
 message PersonResponse {
     Person person = 1;
+}
+
+// The response containing multiple people
+message PeopleResponse {
+    repeated Person people = 1;
 }

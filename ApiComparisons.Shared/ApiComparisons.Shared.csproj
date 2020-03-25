@@ -10,9 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="GRPC\Protos\people.proto">
-      <GrpcServices>Client</GrpcServices>
-    </None>
     <None Update="GRPC\Protos\person.proto">
       <GrpcServices>Client</GrpcServices>
     </None>

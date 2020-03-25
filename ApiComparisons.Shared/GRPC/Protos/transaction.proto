@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+import "person.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "ApiComparisons.Shared.GRPC.Models";
+
+package transactions.transaction;
+
+// The Transactions Transaction model
+message Transaction {
+    string id = 1;
+    string person_id = 2;
+    // Use integers instead of decimals since there
+    // are no WellKnownTypes that handle money yet
+    int32 total = 3;
+    google.protobuf.Timestamp created = 4;
+    // TODO: add reapeated purchases
+}
+
+// The request containing the person
+message TransactionRequest {
+    person.Person person = 1;
+}
+
+// The response containing transactions
+message TransactionResponse { 
+    repeated Transaction transactions = 1;
+}

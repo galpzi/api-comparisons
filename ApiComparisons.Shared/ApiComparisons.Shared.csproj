@@ -10,10 +10,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="GRPC\Protos\store.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="GRPC\Protos\product.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="GRPC\Protos\purchase.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
+    <None Update="GRPC\Protos\transaction.proto">
+      <GrpcServices>Client</GrpcServices>
+    </None>
     <None Update="GRPC\Protos\person.proto">
       <GrpcServices>Client</GrpcServices>
     </None>
-    <None Update="GRPC\Protos\transactions.proto">
+    <None Update="GRPC\Protos\transactions-service.proto">
       <GrpcServices>Client</GrpcServices>
     </None>
   </ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using ApiComparisons.Shared.DAL;
-using ApiComparisons.Shared.GraphQL.Types;
+using ApiComparisons.Shared.GraphQL.Types.Inputs;
+using ApiComparisons.Shared.GraphQL.Types.Outputs;
 using GraphQL;
 using GraphQL.Types;
 using System;
@@ -32,7 +33,7 @@ namespace ApiComparisons.Shared.GraphQL
             Field<StoreType>(
                 name: "addStore",
                 description: "Adds a store",
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<StoreType>> { Name = "store" }),
+                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<StoreInputType>> { Name = "store" }),
                 resolve: context =>
                 {
                     var store = context.GetArgument<Store>("store");
@@ -50,13 +51,13 @@ namespace ApiComparisons.Shared.GraphQL
             Field<ProductType>(
                 name: "addProduct",
                 description: "Adds a product",
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<ProductType>> { Name = "product" }),
+                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<ProductInputType>> { Name = "product" }),
                 resolve: context =>
                 {
                     var product = context.GetArgument<Product>("product");
                     return repo.AddProductAsync(product);
                 });
-            Field<StoreType>(
+            Field<ProductType>(
                 name: "removeProduct",
                 description: "Removes a product",
                 arguments: new QueryArguments(new QueryArgument<NonNullGraphType<GuidGraphType>> { Name = "id" }),
@@ -68,7 +69,7 @@ namespace ApiComparisons.Shared.GraphQL
             Field<PurchaseType>(
                 name: "addPurchase",
                 description: "Adds a purchase",
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<PurchaseType>> { Name = "purchase" }),
+                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<PurchaseInputType>> { Name = "purchase" }),
                 resolve: context =>
                 {
                     var purchase = context.GetArgument<Purchase>("purchase");
@@ -89,13 +90,13 @@ namespace ApiComparisons.Shared.GraphQL
             Field<TransactionType>(
                 name: "addTransaction",
                 description: "Adds a transaction",
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<TransactionType>> { Name = "transaction" }),
+                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<TransactionInputType>> { Name = "transaction" }),
                 resolve: context =>
                 {
                     var transaction = context.GetArgument<Transaction>("transaction");
                     return repo.AddTransactionAsync(transaction);
                 });
-            Field<PurchaseType>(
+            Field<TransactionType>(
                 name: "removeTransaction",
                 description: "Removes a transaction",
                 arguments: new QueryArguments(

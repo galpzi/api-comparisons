@@ -1,4 +1,5 @@
 ﻿using ApiComparisons.Shared.GraphQL.Types;
+using ApiComparisons.Shared.GraphQL.Types.Outputs;
 using GraphQL;
 using GraphQL.Types;
 using System;

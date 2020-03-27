@@ -18,9 +18,10 @@ message Purchase {
     google.protobuf.Timestamp created = 5;    
 }
 
-// The request containing the transaction
+// The request containing a purchase or transaction
 message PurchaseRequest {
-    transaction.Transaction transaction = 1;
+    Purchase purchase = 1;
+    transaction.Transaction transaction = 2;
 }
 
 // The response containing the purchases

@@ -16,9 +16,10 @@ message Store {
     google.protobuf.Timestamp created = 5;    
 }
 
-// The request containing the product
+// The request containing a store or product
 message StoreRequest {
-    product.Product product = 1;
+    Store store = 1;
+    product.Product product = 2;
 }
 
 // The response containing the store

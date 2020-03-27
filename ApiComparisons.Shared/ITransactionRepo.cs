@@ -25,7 +25,7 @@ namespace ApiComparisons.Shared
         Task<Product> AddProductAsync(Product product);
         Task<Product> RemoveProductAsync(Guid id);
         Task<Purchase> AddPurchaseAsync(Purchase purchase);
-        Task<Purchase> RemovePurchaseAsync(Guid purchaseID, Guid transactionID);
+        Task<Purchase> RemovePurchaseAsync(Guid productID, Guid transactionID);
         Task<Transaction> AddTransactionAsync(Transaction transaction);
         Task<Transaction> RemoveTransactionAsync(Guid id, Guid personID);
         #endregion

@@ -27,4 +27,21 @@ service Transactions {
   rpc GetProduct (product.ProductRequest) returns (product.ProductResponse);
   // Returns a product's store
   rpc GetStore (store.StoreRequest) returns (store.StoreResponse);
+
+  // Adds a person
+  rpc AddPerson (person.PersonRequest) returns (person.PersonResponse);
+  // Removes a person
+  rpc RemovePerson (person.PersonRequest) returns (person.PersonResponse);
+  // Adds a store
+  rpc AddStore (store.StoreRequest) returns (store.StoreResponse);
+  // Removes a store
+  rpc RemoveStore (store.StoreRequest) returns (store.StoreResponse);
+  // Adds a purchase 
+  rpc AddPurchase (purchase.PurchaseRequest) returns (purchase.PurchaseResponse);
+  // Removes a purchase
+  rpc RemovePurchase (purchase.PurchaseRequest) returns (purchase.PurchaseResponse);
+  // Adds a transaction
+  rpc AddTransaction (transaction.TransactionRequest) returns (transaction.TransactionResponse);
+  // Removes a transaction
+  rpc RemoveTransaction (transaction.TransactionRequest) returns (transaction.TransactionResponse);
 }

@@ -8,7 +8,10 @@ namespace ApiComparisons.Shared
     public interface ITransactionRepo
     {
         #region Queries
+        Task<IEnumerable<Store>> GetStoresAsync();
         Task<IEnumerable<Person>> GetPeopleAsync();
+        Task<IEnumerable<Product>> GetProductsAsync();
+        Task<IEnumerable<Purchase>> GetPurchasesAsync();
         Task<IEnumerable<Transaction>> GetTransactionsAsync();
         Task<Person> GetPersonAsync(Guid id);
         Task<Store> GetStoreAsync(Product product);

@@ -20,44 +20,31 @@ namespace ApiComparisons.Shared
         }
 
         #region Queries        
-        public async Task<IEnumerable<Person>> GetPeopleAsync()
-        {
-            return await this.context.Persons.ToListAsync();
-        }
+        public async Task<IEnumerable<Person>> GetPeopleAsync() => await this.context.Persons.ToListAsync();
 
-        public async Task<Store> GetStoreAsync(Product product)
-        {
-            return await this.context.Stores.FindAsync(product.StoreID);
-        }
+        public async Task<IEnumerable<Store>> GetStoresAsync() => await this.context.Stores.ToListAsync();
 
-        public async Task<Person> GetPersonAsync(Guid id)
-        {
-            return await this.context.Persons.FindAsync(id);
-        }
+        public async Task<IEnumerable<Product>> GetProductsAsync() => await this.context.Products.ToListAsync();
 
-        public async Task<Product> GetProductAsync(Purchase purchase)
-        {
-            return await this.context.Products.FindAsync(purchase.ProductID);
-        }
+        public async Task<IEnumerable<Purchase>> GetPurchasesAsync() => await this.context.Purchases.ToListAsync();
 
-        public async Task<IEnumerable<Transaction>> GetTransactionsAsync()
-        {
-            return await this.context.Transactions.ToListAsync();
-        }
+        public async Task<IEnumerable<Transaction>> GetTransactionsAsync() => await this.context.Transactions.ToListAsync();
 
-        public async Task<IEnumerable<Transaction>> GetTransactionsAsync(Person person)
-        {
-            return await this.context.Transactions
+        public async Task<Person> GetPersonAsync(Guid id) => await this.context.Persons.FindAsync(id);
+
+        public async Task<Store> GetStoreAsync(Product product) => await this.context.Stores.FindAsync(product.StoreID);
+
+        public async Task<Product> GetProductAsync(Purchase purchase) => await this.context.Products.FindAsync(purchase.ProductID);
+
+        public async Task<IEnumerable<Transaction>> GetTransactionsAsync(Person person) =>
+            await this.context.Transactions
                 .Where(o => o.PersonID == person.ID)
                 .ToListAsync();
-        }
 
-        public async Task<IEnumerable<Purchase>> GetPurchasesAsync(Transaction transaction)
-        {
-            return await this.context.Purchases
+        public async Task<IEnumerable<Purchase>> GetPurchasesAsync(Transaction transaction) =>
+            await this.context.Purchases
                 .Where(o => o.TransactionID == transaction.ID)
                 .ToListAsync();
-        }
         #endregion
 
         #region Mutations

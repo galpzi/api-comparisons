@@ -16,6 +16,7 @@ message Person {
 // The request containing the person id
 message PersonRequest {
     string id = 1;
+    string name = 2;
 }
 
 // The response containing a single person

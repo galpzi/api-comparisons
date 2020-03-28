@@ -1,7 +1,7 @@
 ﻿using ApiComparisons.Shared.DAL;
 using GraphQL.Types;
 
-namespace ApiComparisons.Shared.GraphQL.Types
+namespace ApiComparisons.Shared.GraphQL.Types.Outputs
 {
     public class PersonType : ObjectGraphType<Person>
     {

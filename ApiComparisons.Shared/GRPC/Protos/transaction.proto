@@ -18,9 +18,10 @@ message Transaction {
     // TODO: add reapeated purchases
 }
 
-// The request containing the person
+// The request containing a transaction or person
 message TransactionRequest {
-    person.Person person = 1;
+    Transaction transaction = 1;
+    person.Person person = 2;
 }
 
 // The response containing transactions

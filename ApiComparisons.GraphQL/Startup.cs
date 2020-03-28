@@ -1,7 +1,7 @@
 using ApiComparisons.Shared;
 using ApiComparisons.Shared.DAL;
 using ApiComparisons.Shared.GraphQL;
-using ApiComparisons.Shared.GraphQL.Types;
+using ApiComparisons.Shared.GraphQL.Types.Outputs;
 using GraphQL.Server;
 using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
@@ -45,7 +45,10 @@ namespace ApiComparisons.GraphQL
             services.AddSingleton<ITransactionRepo, TransactionRepo>();
             services.AddSingleton<TransactionQuery>();
             services.AddSingleton<TransactionMutation>();
+            services.AddSingleton<StoreType>();
             services.AddSingleton<PersonType>();
+            services.AddSingleton<ProductType>();
+            services.AddSingleton<PurchaseType>();
             services.AddSingleton<TransactionType>();
             services.AddSingleton<ISchema, TransactionSchema>();
 

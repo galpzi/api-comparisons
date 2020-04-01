@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.CommandLine.Parsing;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,9 +30,7 @@ namespace ApiComparisons.Grpc.Client
         {
             try
             {
-                using var channel = GrpcChannel.ForAddress(this.settings.ServerUri);
-                var client = new Transactions.TransactionsClient(channel);
-                var response = await client.GetPeopleAsync(new Google.Protobuf.WellKnownTypes.Empty());
+                await RunCommandAsync(this.result);
             }
             catch (Exception)
             {
@@ -46,6 +45,18 @@ namespace ApiComparisons.Grpc.Client
         public Task StopAsync(CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
+        }
+
+        private async Task RunCommandAsync(ParseResult result)
+        {
+            using var channel = GrpcChannel.ForAddress(this.settings.ServerUri);
+            var client = new Transactions.TransactionsClient(channel);
+            var response = await client.GetPeopleAsync(new Google.Protobuf.WellKnownTypes.Empty());
+
+            // TODO: match client commands to parse result
+
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            this.logger.LogInformation(JsonSerializer.Serialize(response, options));
         }
     }
 }

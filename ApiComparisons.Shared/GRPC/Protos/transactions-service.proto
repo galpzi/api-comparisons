@@ -9,7 +9,7 @@ import "google/protobuf/empty.proto";
 
 option csharp_namespace = "ApiComparisons.Shared.GRPC";
 
-package transactions.service;
+package transactions;
 
 // The Transactions service definition.
 service Transactions {

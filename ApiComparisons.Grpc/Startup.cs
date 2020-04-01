@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using ApiComparisons.Shared;
+using ApiComparisons.Shared.DAL;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace ApiComparisons.Grpc
 {
@@ -12,7 +16,23 @@ namespace ApiComparisons.Grpc
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // TODO: move to IHostedService
+            var options = new DbContextOptionsBuilder<TransactionContext>()
+                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
+                .Options;
+            using var context = new TransactionContext(options);
+            var initializer = new ContextInitializer(
+                persons: 1,
+                stores: 1,
+                products: 10,
+                purchases: 1,
+                transactions: 1);
+            initializer.Seed(context);
+
             services.AddGrpc();
+            services.AddSingleton(provider => new TransactionContext(options));
+            services.AddDbContext<TransactionContext>(builder => builder.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+            services.AddScoped<ITransactionRepo, TransactionRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -29,6 +49,7 @@ namespace ApiComparisons.Grpc
             {
                 endpoints.MapGrpcService<GreeterService>();
                 endpoints.MapGrpcService<StarWarsService>();
+                endpoints.MapGrpcService<TransactionsService>();
 
                 endpoints.MapGet("/", async context =>
                 {

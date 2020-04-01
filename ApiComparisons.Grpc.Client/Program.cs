@@ -4,20 +4,53 @@ using ApiComparisons.Shared.Protos;
 using ApiComparisons.Shared.StarWars.GRPC;
 using ApiComparisons.Shared.StarWars.GRPC.Characters;
 using Grpc.Net.Client;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
+using System.CommandLine;
+using System.CommandLine.Builder;
+using System.CommandLine.Hosting;
+using System.CommandLine.Invocation;
+using System.CommandLine.Parsing;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ApiComparisons.Grpc.Client
 {
     class Program
     {
-        static async Task Main(string[] args)
+        static Task Main(string[] args)
         {
-            // await Greet();
-
-            // await StarWars();
-
-            await Transactions();
+            var root = TransactionCommands.BuildRoot();
+            root.Handler = CommandHandler.Create<IHost>(Run);
+            var parser = new CommandLineBuilder(root)
+                .UseDefaults()
+                .UseHost(host =>
+                {
+                    host.ConfigureAppConfiguration((context, builder) =>
+                    {
+                        builder.SetBasePath(AppContext.BaseDirectory);
+                        builder.AddJsonFile("appsettings.json", optional: false);
+                        builder.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true);
+                        builder.AddEnvironmentVariables();
+                        builder.AddCommandLine(args);
+                    });
+                    host.ConfigureServices((context, services) =>
+                    {
+                        services.AddLogging();
+                        services.Configure<AppSettings>(context.Configuration.GetSection("Settings"));
+                        services.AddHostedService<TransactionCommandService>();
+                    });
+                    host.ConfigureLogging((context, builder) =>
+                    {
+                        builder.AddConsole();
+                        builder.AddConfiguration(context.Configuration);
+                    });
+                })
+                .Build();
+            return parser.InvokeAsync(args);
         }
 
         static async Task Greet()
@@ -61,6 +94,13 @@ namespace ApiComparisons.Grpc.Client
             Console.WriteLine($"Character ID: {response.Person.Id}, Name: {response.Person.Name}, Created: {response.Person.Created}");
             Console.WriteLine($"Press any key to exit...");
             Console.ReadKey();
+        }
+
+        internal static Task Run(IHost host)
+        {
+            var services = host.Services;
+            var lifetime = services.GetRequiredService<IHostApplicationLifetime>();
+            return Task.Delay(Timeout.InfiniteTimeSpan, lifetime.ApplicationStopped);
         }
     }
 }

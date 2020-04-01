@@ -6,7 +6,7 @@ namespace ApiComparisons.Grpc.Client
 {
     public static class TransactionCommands
     {
-        public static RootCommand BuildRoot()
+        public static RootCommand Root()
         {
             return new RootCommand("CLI client for the ApiComparisons GRPC server")
             {
@@ -20,25 +20,45 @@ namespace ApiComparisons.Grpc.Client
 
         private static Command GetQueryCommands()
         {
-            return new Command("query", "GRPC service queries")
+            return new Command("query", "GRPC service queries.")
             {
-                new Command("people", "Returns people") { new Option<Guid>("id", "The persons's ID") },
-                new Command("transactions", "Returns transactions") { new Option<Person>("person", "The transaction owner") },
-                new Command("products", "Returns products") { new Argument<Purchase> { Name = "purchase", Description = "The parent purchase" } },
-                new Command("stores", "Returns stores") { new Argument<Product> { Name = "product", Description = "The product sold at this store" } },
-                new Command("purchases", "Returns purchases") { new Argument<Transaction> { Name = "transaction", Description = "The parent transaction" } },
+                new Command("people", "Returns people.") { new Option<Guid>("--id", "The persons's ID. The default is empty to indicate no ID specified.") },
+                new Command("stores", "Returns stores.") { new Option<Product>("--product", "The product sold at this store") { Required = true } },
+                new Command("products", "Returns products.") { new Option<Purchase>("--purchase", "The parent purchase") { Required = true } },
+                new Command("purchases", "Returns purchases.") { new Option<Transaction>("--transaction", "The parent transaction") { Required = true } },
+                new Command("transactions", "Returns transactions.") { new Option<Person>("--person", "The transaction owner. The default is null to indicate no person specified.") },
             };
         }
 
         private static Command GetMutationCommands()
         {
-            return new Command("mutation", "GRPC service mutations")
+            return new Command("mutation", "GRPC service mutations.")
             {
-                new Command("stores", "Add or remove stores") { new Argument<Store> { Name = "store", Description = "The store to add or remove" } },
-                new Command("people", "Add or remove people") { new Argument<Store> { Name = "people", Description = "The person to add or remove" } },
-                new Command("products", "Add or remove products") { new Argument<Store> { Name = "products", Description = "The product to add or remove" } },
-                new Command("purchases", "Add or remove purchases") { new Argument<Store> { Name = "purchases", Description = "The purchase to add or remove" } },
-                new Command("transactions", "Add or remove transactions") { new Argument<Store> { Name = "transactions", Description = "The transaction to add or remove" } },
+                new Command("people", "Add or remove people.")
+                {
+                    new Command("add", "Add a person.") { new Option<Person>("--person", "The person to add.") { Required = true } },
+                    new Command("remove", "Remove a person.") { new Option<Person>("--person", "The person to remove.") { Required = true } }
+                },
+                new Command("stores", "Add or remove stores.")
+                {
+                    new Command("add", "Add a store.") { new Option<Store>("--store", "The store to add.") { Required = true } },
+                    new Command("remove", "Remove a store.") { new Option<Store>("--store", "The store to remove.") { Required = true } }
+                },
+                new Command("products", "Add or remove products.")
+                {
+                    new Command("add", "Add a product.") { new Option<Product>("--product", "The product to add.") { Required = true } },
+                    new Command("remove", "Remove a product.") { new Option<Product>("--product", "The product to remove.") { Required = true } }
+                },
+                new Command("purchases", "Add or remove purchases")
+                {
+                    new Command("add", "Add a purchase.") { new Option<Purchase>("--purchase", "The purchase to add.") { Required = true }},
+                    new Command("remove", "Remove a purchase.") { new Option<Purchase>("--purchase", "The purchase to remove.") { Required = true }}
+                },
+                new Command("transactions", "Add or remove transactions")
+                {
+                    new Command("add", "Add a transaction.") { new Option<Transaction>("--transaction", "The transaction to add.") { Required = true } },
+                    new Command("remove", "Remove a transaction.") { new Option<Transaction>("--transaction", "The transaction to remove.") { Required = true } },
+                }
             };
         }
     }

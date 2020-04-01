@@ -23,34 +23,37 @@ namespace ApiComparisons.Grpc.Client
     {
         static Task Main(string[] args)
         {
-            var root = TransactionCommands.BuildRoot();
+            var root = TransactionCommands.Root();
             root.Handler = CommandHandler.Create<IHost>(Run);
             var parser = new CommandLineBuilder(root)
                 .UseDefaults()
-                .UseHost(host =>
-                {
-                    host.ConfigureAppConfiguration((context, builder) =>
-                    {
-                        builder.SetBasePath(AppContext.BaseDirectory);
-                        builder.AddJsonFile("appsettings.json", optional: false);
-                        builder.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true);
-                        builder.AddEnvironmentVariables();
-                        builder.AddCommandLine(args);
-                    });
-                    host.ConfigureServices((context, services) =>
-                    {
-                        services.AddLogging();
-                        services.Configure<AppSettings>(context.Configuration.GetSection("Settings"));
-                        services.AddHostedService<TransactionCommandService>();
-                    });
-                    host.ConfigureLogging((context, builder) =>
-                    {
-                        builder.AddConsole();
-                        builder.AddConfiguration(context.Configuration);
-                    });
-                })
+                .UseHost(builder => CreateHostBuilder(args))
                 .Build();
             return parser.InvokeAsync(args);
+        }
+
+        private static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    builder.SetBasePath(AppContext.BaseDirectory);
+                    builder.AddJsonFile("appsettings.json", optional: false);
+                    builder.AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName}.json", optional: true);
+                    builder.AddEnvironmentVariables();
+                    builder.AddCommandLine(args);
+                })
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddLogging();
+                    services.Configure<AppSettings>(context.Configuration.GetSection("Settings"));
+                    services.AddHostedService<TransactionCommandService>();
+                })
+                .ConfigureLogging((context, builder) =>
+                {
+                    builder.AddConsole();
+                    builder.AddConfiguration(context.Configuration);
+                });
         }
 
         static async Task Greet()

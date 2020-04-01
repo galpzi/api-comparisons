@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ApiComparisons.Grpc.Client": {
+      "commandName": "Project",
+      "commandLineArgs": "transactions query people"
+    }
+  }
+}

@@ -32,9 +32,9 @@ namespace ApiComparisons.Grpc.Client
             {
                 await RunCommandAsync(this.result);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                this.logger.LogError(ex.Message);
             }
             finally
             {
@@ -49,6 +49,7 @@ namespace ApiComparisons.Grpc.Client
 
         private async Task RunCommandAsync(ParseResult result)
         {
+            this.logger.LogInformation($"Parsing result: {result}.");
             using var channel = GrpcChannel.ForAddress(this.settings.ServerUri);
             var client = new Transactions.TransactionsClient(channel);
             var response = await client.GetPeopleAsync(new Google.Protobuf.WellKnownTypes.Empty());

@@ -22,10 +22,10 @@ namespace ApiComparisons.Grpc.Client
         {
             return new Command("query", "GRPC service queries")
             {
-                new Command("people", "Returns people") { new Argument<Guid> { Name = "id", Description = "The person's ID" } },
+                new Command("people", "Returns people") { new Option<Guid>("id", "The persons's ID") },
+                new Command("transactions", "Returns transactions") { new Option<Person>("person", "The transaction owner") },
                 new Command("products", "Returns products") { new Argument<Purchase> { Name = "purchase", Description = "The parent purchase" } },
                 new Command("stores", "Returns stores") { new Argument<Product> { Name = "product", Description = "The product sold at this store" } },
-                new Command("transactions", "Returns transactions") { new Argument<Person> { Name = "person", Description = "The transaction owner" } },
                 new Command("purchases", "Returns purchases") { new Argument<Transaction> { Name = "transaction", Description = "The parent transaction" } },
             };
         }

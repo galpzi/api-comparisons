@@ -68,7 +68,7 @@ namespace ApiComparisons.Shared
 
         public async Task<Person> AddPersonAsync(string name)
         {
-            var person = await this.context.Persons.AddAsync(new Person { Name = name, Created = DateTime.Now });
+            var person = await this.context.Persons.AddAsync(new Person { Name = name, Created = DateTime.UtcNow });
             await this.context.SaveChangesAsync();
             return person.Entity;
         }

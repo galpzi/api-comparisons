@@ -6,7 +6,7 @@
     },
     "Add Person": {
       "commandName": "Project",
-      "commandLineArgs": "transactions people add \"Boba Fett\""
+      "commandLineArgs": "transactions people add --name \"Boba Fett\""
     },
     "Query Transactions": {
       "commandName": "Project",

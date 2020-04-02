@@ -61,14 +61,16 @@ namespace ApiComparisons.Grpc.Client
         #region People
         private static Command GetPeopleCommand()
         {
-            var people = new Command("people", "Return, add or remove people.");
-            people.Add(new Option<Guid>("--id", "The persons's ID. The default is empty to indicate no ID specified."));
+            var people = new Command("people", "Return, add or remove people.")
+            {
+                new Option<Guid>("--id", "The persons's ID. The default is empty to indicate no ID specified.")
+            };
             people.Handler = CommandHandler.Create(typeof(TransactionCommands).GetMethod(nameof(GetPeople), BindingFlags.Static | BindingFlags.NonPublic));
 
-            var add = new Command("add", "Add a person.") { new Option<Person>("--person", "The person to add.") { Required = true } };
+            var add = new Command("add", "Add a person.") { new Option<string>("--name", "The name of the person to add.") { Required = true } };
             add.Handler = CommandHandler.Create(typeof(TransactionCommands).GetMethod(nameof(AddPerson), BindingFlags.Static | BindingFlags.NonPublic));
 
-            var remove = new Command("remove", "Remove a person.") { new Option<Person>("--person", "The person to remove.") { Required = true } };
+            var remove = new Command("remove", "Remove a person.") { new Option<Guid>("--id", "The ID of the person to remove.") { Required = true } };
             remove.Handler = CommandHandler.Create(typeof(TransactionCommands).GetMethod(nameof(RemovePerson), BindingFlags.Static | BindingFlags.NonPublic));
 
             people.Add(add);
@@ -94,7 +96,7 @@ namespace ApiComparisons.Grpc.Client
             var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
             using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
             var client = new Transactions.TransactionsClient(channel);
-            var response = await client.AddPersonAsync(new Shared.GRPC.Models.PersonRequest { Id = person.ID.ToString(), Name = person.Name });
+            var response = await client.AddPersonAsync(new Shared.GRPC.Models.PersonRequest { Name = person.Name });
             Handle(response);
         }
 
@@ -103,7 +105,7 @@ namespace ApiComparisons.Grpc.Client
             var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
             using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
             var client = new Transactions.TransactionsClient(channel);
-            var response = await client.RemovePersonAsync(new Shared.GRPC.Models.PersonRequest { Id = person.ID.ToString(), Name = person.Name });
+            var response = await client.RemovePersonAsync(new Shared.GRPC.Models.PersonRequest { Id = person.ID.ToString() });
             Handle(response);
         }
         #endregion

@@ -1,8 +1,16 @@
 {
   "profiles": {
-    "ApiComparisons.Grpc.Client": {
+    "Get People": {
       "commandName": "Project",
-      "commandLineArgs": "transactions query people"
+      "commandLineArgs": "transactions people"
+    },
+    "Add Person": {
+      "commandName": "Project",
+      "commandLineArgs": "transactions people add \"Boba Fett\""
+    },
+    "Query Transactions": {
+      "commandName": "Project",
+      "commandLineArgs": "transactions transactions"
     }
   }
 }

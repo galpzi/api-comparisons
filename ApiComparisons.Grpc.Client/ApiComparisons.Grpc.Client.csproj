@@ -12,6 +12,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="3.1.3" />
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20158.1" />
+    <PackageReference Include="System.CommandLine.Hosting" Version="0.3.0-alpha.20158.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +30,12 @@
     <!--<Protobuf Include="..\ApiComparisons.Shared\GRPC\Protos\greet.proto" Link="greet.proto" GrpcServices="Client" />-->
     <!--Include all Star Wars protobufs-->
     <Protobuf Include="..\ApiComparisons.Shared.StarWars\GRPC\Protos\*.proto" ProtoRoot="..\ApiComparisons.Shared.StarWars\GRPC\Protos\" GrpcServices="Client" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -28,7 +28,7 @@ namespace ApiComparisons.Shared
             {
                 context.Persons.Add(new Person
                 {
-                    Created = DateTime.Now,
+                    Created = DateTime.UtcNow,
                     Name = $"Person {number}",
                 });
             }
@@ -38,7 +38,7 @@ namespace ApiComparisons.Shared
             {
                 context.Stores.Add(new Store
                 {
-                    Created = DateTime.Now,
+                    Created = DateTime.UtcNow,
                     Name = $"Store {number}",
                     Address = Guid.NewGuid().ToString(),
                     Country = Guid.NewGuid().ToString()
@@ -53,7 +53,7 @@ namespace ApiComparisons.Shared
                     context.Products.Add(new Product
                     {
                         StoreID = store.ID,
-                        Created = DateTime.Now,
+                        Created = DateTime.UtcNow,
                         Name = $"Product {number}",
                         Description = Guid.NewGuid().ToString(),
                         Price = random.Next(1, 1000)
@@ -70,7 +70,7 @@ namespace ApiComparisons.Shared
                     {
                         ID = Guid.NewGuid(),
                         PersonID = person.ID,
-                        Created = DateTime.Now
+                        Created = DateTime.UtcNow
                     }).Entity;
                     context.SaveChanges();
 
@@ -82,7 +82,7 @@ namespace ApiComparisons.Shared
                         {
                             Count = count,
                             ProductID = product.ID,
-                            Created = DateTime.Now,
+                            Created = DateTime.UtcNow,
                             Price = count * product.Price,
                             TransactionID = transaction.ID
                         });

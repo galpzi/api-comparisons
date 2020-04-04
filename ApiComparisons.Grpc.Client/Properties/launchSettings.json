@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "Get People": {
+      "commandName": "Project",
+      "commandLineArgs": "dummy people"
+    },
+    "Add Person": {
+      "commandName": "Project",
+      "commandLineArgs": "dummy people add --name \"Boba Fett\""
+    },
+    "Get Transactions": {
+      "commandName": "Project",
+      "commandLineArgs": "dummy transactions"
+    }
+  }
+}

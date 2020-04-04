@@ -2,15 +2,15 @@
   "profiles": {
     "Get People": {
       "commandName": "Project",
-      "commandLineArgs": "transactions people"
+      "commandLineArgs": "dummy people"
     },
     "Add Person": {
       "commandName": "Project",
-      "commandLineArgs": "transactions people add --name \"Boba Fett\""
+      "commandLineArgs": "dummy people add --name \"Boba Fett\""
     },
     "Query Transactions": {
       "commandName": "Project",
-      "commandLineArgs": "transactions transactions"
+      "commandLineArgs": "dummy transactions"
     }
   }
 }

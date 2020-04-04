@@ -1,15 +1,10 @@
 ﻿using ApiComparisons.Shared.DAL;
-using ApiComparisons.Shared.GRPC;
-using Google.Protobuf.WellKnownTypes;
-using Grpc.Net.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using System;
 using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace ApiComparisons.Grpc.Client
 {
@@ -65,7 +60,6 @@ namespace ApiComparisons.Grpc.Client
             return people;
         }
 
-        #region Stores 
         private Command GetStoresCommand()
         {
             var stores = new Command("stores", "Return, add or remove stores.")
@@ -73,72 +67,38 @@ namespace ApiComparisons.Grpc.Client
                 new Option<Guid>("--product-id", "The store product ID.") { Required = true },
                 new Option<Guid>("--store-id", "The store ID.") { Required = true }
             };
-            stores.Handler = CommandHandler.Create<IHost, Product>(GetStores);
-            var add = new Command("add", "Add a store.") { new Option<Store>("--store", "The store to add.") { Required = true } };
-            add.Handler = CommandHandler.Create<IHost, Store>(AddStore);
-            var remove = new Command("remove", "Remove a store.") { new Option<Store>("--store", "The store to remove.") { Required = true } };
-            remove.Handler = CommandHandler.Create<IHost, Store>(RemoveStore);
+            stores.Handler = CommandHandler.Create<IHost, Product>(async (host, product) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.GetStoresAsync(product);
+            });
+
+            var add = new Command("add", "Add a store.")
+            {
+                new Option<string>("--name", "The store name.") { Required = true },
+                new Option<string>("--address", "The store address.") { Required = true },
+                new Option<string>("--country", "The store country.") { Required = true }
+            };
+            add.Handler = CommandHandler.Create<IHost, Store>(async (host, store) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.AddStoreAsync(store);
+            });
+
+            var remove = new Command("remove", "Remove a store.")
+            {
+                new Option<Guid>("--store-id", "The store ID.") { Required = true }
+            };
+            remove.Handler = CommandHandler.Create<IHost, Store>(async (host, store) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.RemoveStoreAsync(store);
+            });
             stores.Add(add);
             stores.Add(remove);
             return stores;
         }
 
-        private async Task GetStores(IHost host, Product product)
-        {
-            var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
-            using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
-            var client = new Transactions.TransactionsClient(channel);
-            var response = await client.GetStoreAsync(new Shared.GRPC.Models.StoreRequest
-            {
-                Product = new Shared.GRPC.Models.Product
-                {
-                    Id = product.ID.ToString(),
-                    StoreId = product.StoreID.ToString()
-                }
-            });
-            Print(response);
-        }
-
-        private async Task AddStore(IHost host, Store store)
-        {
-            var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
-            using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
-            var client = new Transactions.TransactionsClient(channel);
-            var response = await client.AddStoreAsync(new Shared.GRPC.Models.StoreRequest
-            {
-                Store = new Shared.GRPC.Models.Store
-                {
-                    Name = store.Name,
-                    Id = store.ID.ToString(),
-                    Address = store.Address,
-                    Country = store.Country,
-                    Created = Timestamp.FromDateTime(store.Created)
-                }
-            });
-            Print(response);
-        }
-
-        private async Task RemoveStore(IHost host, Store store)
-        {
-            var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
-            using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
-            var client = new Transactions.TransactionsClient(channel);
-            var response = await client.RemoveStoreAsync(new Shared.GRPC.Models.StoreRequest
-            {
-                Store = new Shared.GRPC.Models.Store
-                {
-                    Name = store.Name,
-                    Id = store.ID.ToString(),
-                    Address = store.Address,
-                    Country = store.Country,
-                    Created = Timestamp.FromDateTime(store.Created)
-                }
-            });
-            Print(response);
-        }
-        #endregion
-
-        #region Products
         private Command GetProductsCommand()
         {
             var products = new Command("products", "Return, add or remove products.")
@@ -146,46 +106,34 @@ namespace ApiComparisons.Grpc.Client
                 new Option<Guid>("--product-id", "The purchase product ID.") { Required = true },
                 new Option<Guid>("--transaction-id", "The purchase transaction ID.") { Required = true }
             };
-            products.Handler = CommandHandler.Create<IHost, Purchase>(GetProduct);
-            // TODO: implement add/remove methods
-            //var add = new Command("add", "Add a product.") { new Option<Product>("--product", "The product to add.") { Required = true } };
-            //add.Handler = CommandHandler.Create<IHost, Product>(AddProduct);
-            //var remove = new Command("remove", "Remove a product.") { new Option<Product>("--product", "The product to remove.") { Required = true } };
-            //remove.Handler = CommandHandler.Create<IHost, Product>(RemoveProduct);
-            //products.Add(add);
-            //products.Add(remove);
+            products.Handler = CommandHandler.Create<IHost, Purchase>(async (host, purchase) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.GetProductAsync(purchase);
+            });
+
+            var add = new Command("add", "Add a product.")
+            {
+            };
+            add.Handler = CommandHandler.Create<IHost, Product>(async (host, product) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.AddProductAsync(product);
+            });
+
+            var remove = new Command("remove", "Remove a product.")
+            {
+            };
+            remove.Handler = CommandHandler.Create<IHost, Product>(async (host, product) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.RemoveProductAsync(product);
+            });
+            products.Add(add);
+            products.Add(remove);
             return products;
         }
 
-        private async Task GetProduct(IHost host, Purchase purchase)
-        {
-            dynamic response;
-            var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
-            using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
-            var client = new Transactions.TransactionsClient(channel);
-            response = await client.GetProductAsync(new Shared.GRPC.Models.ProductRequest
-            {
-                Purchase = new Shared.GRPC.Models.Purchase
-                {
-                    ProductId = purchase.ProductID.ToString(),
-                    TransactionId = purchase.TransactionID.ToString()
-                }
-            });
-            Print(response);
-        }
-
-        private async Task AddProduct(IHost host, Product product)
-        {
-            throw new NotImplementedException();
-        }
-
-        private async Task RemoveProduct(IHost host, Product product)
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
-        #region Purchases
         private Command GetPurchasesCommand()
         {
             var purchases = new Command("purchases", "Return, add or remove purchases")
@@ -193,7 +141,11 @@ namespace ApiComparisons.Grpc.Client
                 new Option<Guid>("--transaction-id", "The transaction ID.") { Required = true },
                 new Option<Guid>("--person-id", "The transaction person ID.") { Required = true }
             };
-            purchases.Handler = CommandHandler.Create<IHost, Transaction>(GetPurchases);
+            purchases.Handler = CommandHandler.Create<IHost, Transaction>(async (host, transaction) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.GetPurchasesAsync(transaction);
+            });
             var add = new Command("add", "Add a purchase.")
             {
                 new Option<Guid>("--purchase-id", "The purchase ID.") { Required = true },
@@ -201,150 +153,62 @@ namespace ApiComparisons.Grpc.Client
                 new Option<decimal>("--price", "The purchase price.") { Required = true },
                 new Option<int>("--count", "The purchase count.") { Required = true },
             };
-            add.Handler = CommandHandler.Create<IHost, Purchase>(AddPurchase);
+            add.Handler = CommandHandler.Create<IHost, Purchase>(async (host, purchase) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.AddPurchaseAsync(purchase);
+            });
             var remove = new Command("remove", "Remove a purchase.")
             {
                 new Option<Guid>("--purchase-id", "The purchase ID.") { Required = true },
                 new Option<Guid>("--transaction-id", "The transaction ID.") { Required = true },
             };
-            remove.Handler = CommandHandler.Create<IHost, Purchase>(RemovePurchase);
+            remove.Handler = CommandHandler.Create<IHost, Purchase>(async (host, purchase) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.RemovePurchaseAsync(purchase);
+            });
             purchases.Add(add);
             purchases.Add(remove);
             return purchases;
         }
 
-        private async Task GetPurchases(IHost host, Transaction transaction)
-        {
-            dynamic response;
-            var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
-            using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
-            var client = new Transactions.TransactionsClient(channel);
-            response = await client.GetPurchasesAsync(new Shared.GRPC.Models.PurchaseRequest
-            {
-                Transaction = new Shared.GRPC.Models.Transaction
-                {
-                    Id = transaction.ID.ToString(),
-                    PersonId = transaction.PersonID.ToString()
-                }
-            });
-            Print(response);
-        }
-
-        private async Task AddPurchase(IHost host, Purchase purchase)
-        {
-            dynamic response;
-            var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
-            using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
-            var client = new Transactions.TransactionsClient(channel);
-            response = await client.AddPurchaseAsync(new Shared.GRPC.Models.PurchaseRequest
-            {
-                Purchase = new Shared.GRPC.Models.Purchase
-                {
-                    ProductId = purchase.ProductID.ToString(),
-                    TransactionId = purchase.TransactionID.ToString(),
-                    Price = Convert.ToInt32(purchase.Price),
-                    Count = purchase.Count
-                }
-            });
-            Print(response);
-        }
-
-        private async Task RemovePurchase(IHost host, Purchase purchase)
-        {
-            dynamic response;
-            var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
-            using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
-            var client = new Transactions.TransactionsClient(channel);
-            response = await client.RemovePurchaseAsync(new Shared.GRPC.Models.PurchaseRequest
-            {
-                Purchase = new Shared.GRPC.Models.Purchase
-                {
-                    ProductId = purchase.ProductID.ToString(),
-                    TransactionId = purchase.TransactionID.ToString()
-                }
-            });
-            Print(response);
-        }
-        #endregion
-
-        #region Transactions
         private Command GetTransactionsCommand()
         {
             var transactions = new Command("transactions", "Return, add or remove transactions")
             {
                 new Option<Guid>("--person-id", "The transaction person ID. The default is null to indicate no person specified.")
             };
-            transactions.Handler = CommandHandler.Create<IHost, Guid>(GetTransactions);
+            transactions.Handler = CommandHandler.Create<IHost, Guid>(async (host, personID) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.GetTransactionsAsync(personID);
+            });
+
             var add = new Command("add", "Add a transaction.")
             {
                 new Option<Guid>("--person-id", "The transaction person ID.") { Required = true },
                 new Option<decimal>("--total", "The transaction total.") { Required = true }
             };
-            add.Handler = CommandHandler.Create<IHost, Transaction>(AddTransaction);
+            add.Handler = CommandHandler.Create<IHost, Transaction>(async (host, transaction) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.AddTransactionAsync(transaction);
+            });
+
             var remove = new Command("remove", "Remove a transaction.")
             {
                 new Option<Guid>("--id", "The transaction ID.") { Required = true },
                 new Option<Guid>("--person-id", "The transaction person ID.") { Required = true },
             };
-            remove.Handler = CommandHandler.Create<IHost, Transaction>(RemoveTransaction);
+            remove.Handler = CommandHandler.Create<IHost, Transaction>(async (host, transaction) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.RemoveTransactionAsync(transaction);
+            });
             transactions.Add(add);
             transactions.Add(remove);
             return transactions;
         }
-
-        private async Task GetTransactions(IHost host, Guid personID)
-        {
-            dynamic response;
-            var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
-            using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
-            var client = new Transactions.TransactionsClient(channel);
-            if (personID == Guid.Empty)
-            {
-                response = await client.GetTransactionsAsync(new Empty());
-            }
-            else
-            {
-                response = await client.GetPersonTransactionsAsync(new Shared.GRPC.Models.TransactionRequest
-                {
-                    Person = new Shared.GRPC.Models.Person { Id = personID.ToString() }
-                });
-            }
-            Print(response);
-        }
-
-        private async Task AddTransaction(IHost host, Transaction transaction)
-        {
-            dynamic response;
-            var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
-            using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
-            var client = new Transactions.TransactionsClient(channel);
-            response = await client.AddTransactionAsync(new Shared.GRPC.Models.TransactionRequest
-            {
-                Transaction = new Shared.GRPC.Models.Transaction
-                {
-                    PersonId = transaction.PersonID.ToString(),
-                    Total = Convert.ToInt32(transaction.Total)
-                }
-            });
-            Print(response);
-        }
-
-        private async Task RemoveTransaction(IHost host, Transaction transaction)
-        {
-            dynamic response;
-            var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
-            using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
-            var client = new Transactions.TransactionsClient(channel);
-            response = await client.RemoveTransactionAsync(new Shared.GRPC.Models.TransactionRequest
-            {
-                Transaction = new Shared.GRPC.Models.Transaction
-                {
-                    Id = transaction.ID.ToString(),
-                    PersonId = transaction.PersonID.ToString()
-                }
-            });
-            Print(response);
-        }
-        #endregion
     }
 }

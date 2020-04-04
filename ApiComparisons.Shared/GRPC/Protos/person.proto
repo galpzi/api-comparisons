@@ -4,9 +4,9 @@ import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "ApiComparisons.Shared.GRPC.Models";
 
-package transactions.person;
+package dummy.person;
 
-// The Transactions Person model
+// The dummy Person model
 message Person {    
     string id = 1;
     string name = 2;

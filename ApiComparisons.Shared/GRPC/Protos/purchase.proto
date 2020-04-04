@@ -5,9 +5,9 @@ import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "ApiComparisons.Shared.GRPC.Models";
 
-package transactions.purchase;
+package dummy.purchase;
 
-// The Transactions Purchase model
+// The dummy Purchase model
 message Purchase {
     string product_id = 1;
     string transaction_id = 2;

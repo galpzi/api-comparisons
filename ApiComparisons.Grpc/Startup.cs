@@ -32,7 +32,7 @@ namespace ApiComparisons.Grpc
             services.AddGrpc();
             services.AddSingleton(provider => new TransactionContext(options));
             services.AddDbContext<TransactionContext>(builder => builder.UseInMemoryDatabase(Guid.NewGuid().ToString()));
-            services.AddScoped<ITransactionRepo, TransactionRepo>();
+            services.AddScoped<IDummyRepo, DummyRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +49,7 @@ namespace ApiComparisons.Grpc
             {
                 endpoints.MapGrpcService<GreeterService>();
                 endpoints.MapGrpcService<StarWarsService>();
-                endpoints.MapGrpcService<TransactionsService>();
+                endpoints.MapGrpcService<DummyService>();
 
                 endpoints.MapGet("/", async context =>
                 {

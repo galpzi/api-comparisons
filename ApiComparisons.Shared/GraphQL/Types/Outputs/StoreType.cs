@@ -5,7 +5,7 @@ namespace ApiComparisons.Shared.GraphQL.Types.Outputs
 {
     public class StoreType : ObjectGraphType<Store>
     {
-        public StoreType(ITransactionRepo repo)
+        public StoreType(IDummyRepo repo)
         {
             Name = "Store";
             Field(o => o.ID).Name("id").Description("The store's ID.");

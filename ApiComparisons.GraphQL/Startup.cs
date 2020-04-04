@@ -42,7 +42,7 @@ namespace ApiComparisons.GraphQL
             initializer.Seed(context);
 
             services.AddSingleton(provider => new TransactionContext(options));
-            services.AddSingleton<ITransactionRepo, TransactionRepo>();
+            services.AddSingleton<IDummyRepo, DummyRepo>();
             services.AddSingleton<TransactionQuery>();
             services.AddSingleton<TransactionMutation>();
             services.AddSingleton<StoreType>();

@@ -7,7 +7,7 @@ namespace ApiComparisons.Shared.GraphQL
 {
     public class TransactionQuery : ObjectGraphType<object>
     {
-        public TransactionQuery(ITransactionRepo repo)
+        public TransactionQuery(IDummyRepo repo)
         {
             Name = "TransactionsQuery";
             FieldAsync<ListGraphType<StoreType>>(name: "stores", resolve: async context => await repo.GetStoresAsync());

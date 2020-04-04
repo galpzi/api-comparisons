@@ -5,7 +5,7 @@ namespace ApiComparisons.Shared.GraphQL.Types.Outputs
 {
     public class ProductType : ObjectGraphType<Product>
     {
-        public ProductType(ITransactionRepo repo)
+        public ProductType(IDummyRepo repo)
         {
             Name = "Product";
             Field(o => o.ID).Name("id").Description("The product's ID.");

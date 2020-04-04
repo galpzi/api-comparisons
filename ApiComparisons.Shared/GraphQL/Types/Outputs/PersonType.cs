@@ -5,7 +5,7 @@ namespace ApiComparisons.Shared.GraphQL.Types.Outputs
 {
     public class PersonType : ObjectGraphType<Person>
     {
-        public PersonType(ITransactionRepo repo)
+        public PersonType(IDummyRepo repo)
         {
             Name = "Person";
             Field(o => o.ID).Name("id").Description("The person ID.");

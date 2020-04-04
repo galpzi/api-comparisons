@@ -35,54 +35,35 @@ namespace ApiComparisons.Grpc.Client
         internal static void Print(dynamic response) =>
             Console.WriteLine((string)JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true }));
 
-        #region People
         private Command GetPeopleCommand()
         {
             var people = new Command("people", "Return, add or remove people.")
             {
                 new Option<Guid>("--person-id", "The persons's ID. The default is empty to indicate no ID specified.")
             };
-            people.Handler = CommandHandler.Create<IHost, Guid>(GetPeople);
+            people.Handler = CommandHandler.Create<IHost, Guid>(async (host, personID) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.GetPeopleAsync(personID);
+            });
+
             var add = new Command("add", "Add a person.") { new Option<string>("--name", "The name of the person to add.") { Required = true } };
-            add.Handler = CommandHandler.Create<IHost, Person>(AddPerson);
+            add.Handler = CommandHandler.Create<IHost, Person>(async (host, person) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.AddPersonAsync(person);
+            });
+
             var remove = new Command("remove", "Remove a person.") { new Option<Guid>("--id", "The ID of the person to remove.") { Required = true } };
-            remove.Handler = CommandHandler.Create<IHost, Person>(RemovePerson);
+            remove.Handler = CommandHandler.Create<IHost, Person>(async (host, person) =>
+            {
+                var client = host.Services.GetRequiredService<IDummyGrpcClient>();
+                await client.RemovePersonAsync(person);
+            });
             people.Add(add);
             people.Add(remove);
             return people;
         }
-
-        private async Task GetPeople(IHost host, Guid personID)
-        {
-            dynamic response;
-            var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
-            using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
-            var client = new Transactions.TransactionsClient(channel);
-            if (personID == Guid.Empty)
-                response = await client.GetPeopleAsync(new Empty());
-            else
-                response = await client.GetPersonAsync(new Shared.GRPC.Models.PersonRequest { Id = personID.ToString() });
-            Print(response);
-        }
-
-        private async Task AddPerson(IHost host, Person person)
-        {
-            var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
-            using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
-            var client = new Transactions.TransactionsClient(channel);
-            var response = await client.AddPersonAsync(new Shared.GRPC.Models.PersonRequest { Name = person.Name });
-            Print(response);
-        }
-
-        private async Task RemovePerson(IHost host, Person person)
-        {
-            var options = host.Services.GetRequiredService<IOptions<AppSettings>>();
-            using var channel = GrpcChannel.ForAddress(options.Value.ServerUri);
-            var client = new Transactions.TransactionsClient(channel);
-            var response = await client.RemovePersonAsync(new Shared.GRPC.Models.PersonRequest { Id = person.ID.ToString() });
-            Print(response);
-        }
-        #endregion
 
         #region Stores 
         private Command GetStoresCommand()

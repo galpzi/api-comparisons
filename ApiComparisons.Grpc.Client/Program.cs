@@ -37,6 +37,7 @@ namespace ApiComparisons.Grpc.Client
                 .ConfigureServices((context, services) =>
                 {
                     services.AddLogging();
+                    services.AddSingleton<IDummyGrpcClient, DummyGrpcClient>();
                     services.Configure<AppSettings>(context.Configuration.GetSection("Settings"));
                 })
                 .ConfigureLogging((context, builder) =>

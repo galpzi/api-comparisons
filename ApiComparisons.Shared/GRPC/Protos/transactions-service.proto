@@ -32,6 +32,10 @@ service Transactions {
   rpc AddStore (store.StoreRequest) returns (store.StoreResponse);
   // Removes a store
   rpc RemoveStore (store.StoreRequest) returns (store.StoreResponse);
+  // Adds a product
+  rpc AddProduct (product.ProductRequest) returns (product.ProductResponse);
+  // Removes a product
+  rpc RemoveProduct (product.ProductRequest) returns (product.ProductResponse);
   // Adds a purchase 
   rpc AddPurchase (purchase.PurchaseRequest) returns (purchase.PurchaseResponse);
   // Removes a purchase

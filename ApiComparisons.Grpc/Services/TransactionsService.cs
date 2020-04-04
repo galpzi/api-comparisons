@@ -243,6 +243,44 @@ namespace ApiComparisons.Grpc
             return response;
         }
 
+        public override async Task<ProductResponse> AddProduct(ProductRequest request, ServerCallContext context)
+        {
+            if (!Guid.TryParse(request.Product.StoreId, out Guid storeID))
+                throw new ArgumentException($"invalid store id {request.Product.StoreId}");
+
+            var product = new Shared.DAL.Product
+            {
+                StoreID = storeID,
+                Name = request.Product.Name,
+                Price = request.Product.Price,
+                Description = request.Product.Description,
+            };
+            var entry = await this.repo.AddProductAsync(product);
+            return new ProductResponse
+            {
+                Product = new Product
+                {
+                    Name = entry.Name,
+                    Id = entry.ID.ToString(),
+                    StoreId = entry.StoreID.ToString(),
+                    Price = Convert.ToInt32(entry.Price),
+                    Created = Timestamp.FromDateTime(entry.Created),
+                }
+            };
+        }
+
+        public override async Task<ProductResponse> RemoveProduct(ProductRequest request, ServerCallContext context)
+        {
+            if (!Guid.TryParse(request.Product.Id, out Guid id))
+                throw new ArgumentException($"invalid product id {request.Product.Id}");
+
+            var response = new ProductResponse();
+            var product = await this.repo.RemoveProductAsync(id);
+            if (product != null)
+                response.Product = request.Product;
+            return response;
+        }
+
         public override async Task<PurchaseResponse> AddPurchase(PurchaseRequest request, ServerCallContext context)
         {
             if (!Guid.TryParse(request.Purchase.ProductId, out Guid productID))

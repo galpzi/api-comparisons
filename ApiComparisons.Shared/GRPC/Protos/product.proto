@@ -21,7 +21,8 @@ message Product {
 
 // The request containing the purchase
 message ProductRequest {
-    purchase.Purchase purchase = 1;
+    Product product = 1;
+    purchase.Purchase purchase = 2;
 }
 
 // The response containing the product

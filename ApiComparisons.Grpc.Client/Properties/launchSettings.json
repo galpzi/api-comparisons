@@ -8,7 +8,7 @@
       "commandName": "Project",
       "commandLineArgs": "dummy people add --name \"Boba Fett\""
     },
-    "Query Transactions": {
+    "Get Transactions": {
       "commandName": "Project",
       "commandLineArgs": "dummy transactions"
     }

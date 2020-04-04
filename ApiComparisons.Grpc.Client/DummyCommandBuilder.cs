@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ApiComparisons.Grpc.Client
 {
-    public class TransactionCommandBuilder
+    public class DummyCommandBuilder
     {
         public RootCommand Root()
         {

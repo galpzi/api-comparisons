@@ -15,7 +15,7 @@ namespace ApiComparisons.Grpc.Client
     {
         static Task Main(string[] args)
         {
-            var commands = new TransactionCommandBuilder();
+            var commands = new DummyCommandBuilder();
             var parser = new CommandLineBuilder(commands.Root())
                 .UseDefaults()
                 .UseHost(CreateHostBuilder)

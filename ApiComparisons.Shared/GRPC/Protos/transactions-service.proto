@@ -12,15 +12,11 @@ option csharp_namespace = "ApiComparisons.Shared.GRPC";
 package transactions;
 
 // The Transactions service definition.
-service Transactions {
-  // Returns a person
-  rpc GetPerson (person.PersonRequest) returns (person.PersonResponse);  
+service Transactions {  
   // Returns people
-  rpc GetPeople (google.protobuf.Empty) returns (person.PeopleResponse);
-  // Returns a person's transactions
-  rpc GetPersonTransactions (transaction.TransactionRequest) returns (transaction.TransactionResponse);
-  // Returns transactions
-  rpc GetTransactions (google.protobuf.Empty) returns (transaction.TransactionResponse);
+  rpc GetPeople (person.PersonRequest) returns (person.PersonResponse);
+  // Returns transactions  
+  rpc GetTransactions (transaction.TransactionRequest) returns (transaction.TransactionResponse);  
   // Returns a transaction's purchases
   rpc GetPurchases (purchase.PurchaseRequest) returns (purchase.PurchaseResponse);
   // Returns a purchase's product

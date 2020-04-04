@@ -21,75 +21,81 @@ namespace ApiComparisons.Grpc
             this.repo = repo;
         }
 
-        #region Queries
-        public override async Task<PersonResponse> GetPerson(PersonRequest request, ServerCallContext context)
+        #region Queries        
+        public override async Task<PersonResponse> GetPeople(PersonRequest request, ServerCallContext context)
         {
             if (!Guid.TryParse(request.Id, out Guid id))
                 throw new ArgumentException($"invalid person id {request.Id}");
 
-            var person = await this.repo.GetPersonAsync(id);
-            return new PersonResponse
+            if (id == Guid.Empty)
             {
-                Person = new Person
+                var response = new PersonResponse();
+                var people = await this.repo.GetPeopleAsync();
+                var repeated = people.Select(o => new Person
                 {
-                    Name = person.Name,
-                    Id = person.ID.ToString(),
-                    Created = Timestamp.FromDateTime(person.Created)
-                }
-            };
-        }
-
-        public override async Task<PeopleResponse> GetPeople(Empty request, ServerCallContext context)
-        {
-            var response = new PeopleResponse();
-            var people = await this.repo.GetPeopleAsync();
-            var repeated = people.Select(o => new Person
+                    Name = o.Name,
+                    Id = o.ID.ToString(),
+                    Created = Timestamp.FromDateTime(o.Created)
+                });
+                response.People.AddRange(repeated);
+                return response;
+            }
+            else
             {
-                Name = o.Name,
-                Id = o.ID.ToString(),
-                Created = Timestamp.FromDateTime(o.Created)
-            });
-            response.People.AddRange(repeated);
-            return response;
+                var person = await this.repo.GetPersonAsync(id);
+                return new PersonResponse
+                {
+                    People =
+                    {
+                        new Person
+                        {
+                            Name = person.Name,
+                            Id = person.ID.ToString(),
+                            Created = Timestamp.FromDateTime(person.Created)
+                        }
+                    }
+                };
+            }
         }
 
-        public override async Task<TransactionResponse> GetTransactions(Empty request, ServerCallContext context)
+        public override async Task<TransactionResponse> GetTransactions(TransactionRequest request, ServerCallContext context)
         {
-            var response = new TransactionResponse();
-            var transactions = await this.repo.GetTransactionsAsync();
-            var repeated = transactions.Select(o => new Transaction
-            {
-                Id = o.ID.ToString(),
-                PersonId = o.PersonID.ToString(),
-                Total = Convert.ToInt32(o.Total),
-                Created = Timestamp.FromDateTime(o.Created)
-            });
-            response.Transactions.AddRange(repeated);
-            return response;
-        }
-
-        public override async Task<TransactionResponse> GetPersonTransactions(TransactionRequest request, ServerCallContext context)
-        {
-            if (!Guid.TryParse(request.Person.Id, out Guid id))
+            if (!Guid.TryParse(request.Person.Id, out Guid personID))
                 throw new ArgumentException($"invalid person id {request.Person.Id}");
 
             var response = new TransactionResponse();
-            var person = new Shared.DAL.Person
+            if (personID == Guid.Empty)
             {
-                ID = id,
-                Name = request.Person.Name,
-                Created = request.Person.Created.ToDateTime()
-            };
-            var transactions = await this.repo.GetTransactionsAsync(person);
-            var repeated = transactions.Select(o => new Transaction
+                var transactions = await this.repo.GetTransactionsAsync();
+                var repeated = transactions.Select(o => new Transaction
+                {
+                    Id = o.ID.ToString(),
+                    PersonId = o.PersonID.ToString(),
+                    Total = Convert.ToInt32(o.Total),
+                    Created = Timestamp.FromDateTime(o.Created)
+                });
+                response.Transactions.AddRange(repeated);
+                return response;
+            }
+            else
             {
-                Id = o.ID.ToString(),
-                PersonId = o.PersonID.ToString(),
-                Total = Convert.ToInt32(o.Total),
-                Created = Timestamp.FromDateTime(o.Created)
-            });
-            response.Transactions.AddRange(repeated);
-            return response;
+                var person = new Shared.DAL.Person
+                {
+                    ID = personID,
+                    Name = request.Person.Name,
+                    Created = request.Person.Created.ToDateTime()
+                };
+                var transactions = await this.repo.GetTransactionsAsync(person);
+                var repeated = transactions.Select(o => new Transaction
+                {
+                    Id = o.ID.ToString(),
+                    PersonId = o.PersonID.ToString(),
+                    Total = Convert.ToInt32(o.Total),
+                    Created = Timestamp.FromDateTime(o.Created)
+                });
+                response.Transactions.AddRange(repeated);
+                return response;
+            }
         }
 
         public override async Task<PurchaseResponse> GetPurchases(PurchaseRequest request, ServerCallContext context)
@@ -166,11 +172,14 @@ namespace ApiComparisons.Grpc
             var person = await this.repo.AddPersonAsync(request.Name);
             return new PersonResponse
             {
-                Person = new Person
+                People =
                 {
-                    Name = person.Name,
-                    Id = person.ID.ToString(),
-                    Created = Timestamp.FromDateTime(person.Created)
+                    new Person
+                    {
+                        Name = person.Name,
+                        Id = person.ID.ToString(),
+                        Created = Timestamp.FromDateTime(person.Created)
+                    }
                 }
             };
         }
@@ -184,12 +193,12 @@ namespace ApiComparisons.Grpc
             var person = await this.repo.RemovePersonAsync(id);
             if (person != null)
             {
-                response.Person = new Person
+                response.People.Add(new Person
                 {
                     Name = person.Name,
                     Id = person.ID.ToString(),
                     Created = Timestamp.FromDateTime(person.Created)
-                };
+                });
             }
             return response;
         }

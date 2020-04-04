@@ -13,18 +13,13 @@ message Person {
     google.protobuf.Timestamp created = 3;    
 }
 
-// The request containing the person id
+// The request containing an optional person ID and name
 message PersonRequest {
     string id = 1;
     string name = 2;
 }
 
-// The response containing a single person
+// The response containing people
 message PersonResponse {
-    Person person = 1;
-}
-
-// The response containing multiple people
-message PeopleResponse {
     repeated Person people = 1;
 }

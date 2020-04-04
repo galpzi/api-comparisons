@@ -22,11 +22,7 @@ namespace ApiComparisons.Grpc.Client
         #region People
         public async Task GetPeopleAsync(Guid personID)
         {
-            dynamic response;
-            if (personID == Guid.Empty)
-                response = await Client.GetPeopleAsync(new Empty());
-            else
-                response = await Client.GetPersonAsync(new Shared.GRPC.Models.PersonRequest { Id = personID.ToString() });
+            var response = await Client.GetPeopleAsync(new Shared.GRPC.Models.PersonRequest { Id = personID.ToString() });
             Print(response);
         }
 
@@ -162,18 +158,10 @@ namespace ApiComparisons.Grpc.Client
         #region Transactions      
         public async Task GetTransactionsAsync(Guid personID)
         {
-            dynamic response;
-            if (personID == Guid.Empty)
+            var response = await Client.GetTransactionsAsync(new Shared.GRPC.Models.TransactionRequest
             {
-                response = await Client.GetTransactionsAsync(new Empty());
-            }
-            else
-            {
-                response = await Client.GetPersonTransactionsAsync(new Shared.GRPC.Models.TransactionRequest
-                {
-                    Person = new Shared.GRPC.Models.Person { Id = personID.ToString() }
-                });
-            }
+                Person = new Shared.GRPC.Models.Person { Id = personID.ToString() }
+            });
             Print(response);
         }
 

@@ -4,6 +4,6 @@ namespace ApiComparisons.Shared
 {
     public interface IContextInitializer
     {
-        void Seed(TransactionContext context);
+        void Seed(DummyContext context);
     }
 }

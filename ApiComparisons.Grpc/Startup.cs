@@ -17,10 +17,10 @@ namespace ApiComparisons.Grpc
         public void ConfigureServices(IServiceCollection services)
         {
             // TODO: move to IHostedService
-            var options = new DbContextOptionsBuilder<TransactionContext>()
+            var options = new DbContextOptionsBuilder<DummyContext>()
                 .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
                 .Options;
-            using var context = new TransactionContext(options);
+            using var context = new DummyContext(options);
             var initializer = new ContextInitializer(
                 persons: 1,
                 stores: 1,
@@ -30,9 +30,9 @@ namespace ApiComparisons.Grpc
             initializer.Seed(context);
 
             services.AddGrpc();
-            services.AddSingleton(provider => new TransactionContext(options));
-            services.AddDbContext<TransactionContext>(builder => builder.UseInMemoryDatabase(Guid.NewGuid().ToString()));
-            services.AddScoped<ITransactionRepo, TransactionRepo>();
+            services.AddSingleton(provider => new DummyContext(options));
+            services.AddDbContext<DummyContext>(builder => builder.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+            services.AddScoped<IDummyRepo, DummyRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +49,7 @@ namespace ApiComparisons.Grpc
             {
                 endpoints.MapGrpcService<GreeterService>();
                 endpoints.MapGrpcService<StarWarsService>();
-                endpoints.MapGrpcService<TransactionsService>();
+                endpoints.MapGrpcService<DummyService>();
 
                 endpoints.MapGet("/", async context =>
                 {

@@ -14,7 +14,7 @@ namespace ApiComparisons.Grpc.Client
         {
         }
 
-        public Transactions.TransactionsClient Client => new Transactions.TransactionsClient(this.channel);
+        public Dummy.DummyClient Client => new Dummy.DummyClient(this.channel);
 
         internal static void Print(dynamic response) =>
             Console.WriteLine((string)JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true }));

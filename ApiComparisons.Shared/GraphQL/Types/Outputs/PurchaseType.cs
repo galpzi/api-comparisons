@@ -5,7 +5,7 @@ namespace ApiComparisons.Shared.GraphQL.Types.Outputs
 {
     public class PurchaseType : ObjectGraphType<Purchase>
     {
-        public PurchaseType(ITransactionRepo repo)
+        public PurchaseType(IDummyRepo repo)
         {
             Name = "Purchase";
             Field(o => o.ProductID).Description("The purchase's product ID.");

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ApiComparisons.Shared
 {
-    public interface ITransactionRepo
+    public interface IDummyRepo
     {
         #region Queries
         Task<IEnumerable<Store>> GetStoresAsync();

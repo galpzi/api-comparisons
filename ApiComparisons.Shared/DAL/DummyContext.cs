@@ -2,7 +2,7 @@
 
 namespace ApiComparisons.Shared.DAL
 {
-    public class TransactionContext : DbContext
+    public class DummyContext : DbContext
     {
         public DbSet<Store> Stores { get; set; }
         public DbSet<Person> Persons { get; set; }
@@ -10,7 +10,7 @@ namespace ApiComparisons.Shared.DAL
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
-        public TransactionContext(DbContextOptions<TransactionContext> options) : base(options)
+        public DummyContext(DbContextOptions<DummyContext> options) : base(options)
         {
         }
 

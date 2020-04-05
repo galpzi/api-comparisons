@@ -25,7 +25,7 @@
     <None Update="GRPC\Protos\person.proto">
       <GrpcServices>Client</GrpcServices>
     </None>
-    <None Update="GRPC\Protos\transactions-service.proto">
+    <None Update="GRPC\Protos\dummy.proto">
       <GrpcServices>Client</GrpcServices>
     </None>
   </ItemGroup>

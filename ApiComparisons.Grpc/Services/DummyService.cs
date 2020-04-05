@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace ApiComparisons.Grpc
 {
-    public class TransactionsService : Transactions.TransactionsBase
+    public class DummyService : Dummy.DummyBase
     {
-        private readonly ITransactionRepo repo;
-        private readonly ILogger<TransactionsService> logger;
+        private readonly IDummyRepo repo;
+        private readonly ILogger<DummyService> logger;
 
-        public TransactionsService(ILogger<TransactionsService> logger, ITransactionRepo repo)
+        public DummyService(ILogger<DummyService> logger, IDummyRepo repo)
         {
             this.logger = logger;
             this.repo = repo;

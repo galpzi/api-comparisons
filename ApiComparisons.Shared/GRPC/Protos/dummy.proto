@@ -5,14 +5,13 @@ import "transaction.proto";
 import "purchase.proto";
 import "product.proto";
 import "store.proto";
-import "google/protobuf/empty.proto";
 
 option csharp_namespace = "ApiComparisons.Shared.GRPC";
 
-package transactions;
+package dummy;
 
-// The Transactions service definition.
-service Transactions {  
+// The dummy service definition.
+service Dummy {  
   // Returns people
   rpc GetPeople (person.PersonRequest) returns (person.PersonResponse);
   // Returns transactions  

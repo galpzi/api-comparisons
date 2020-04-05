@@ -5,7 +5,7 @@ namespace ApiComparisons.Shared.GraphQL.Types.Outputs
 {
     public class TransactionType : ObjectGraphType<Transaction>
     {
-        public TransactionType(ITransactionRepo repo)
+        public TransactionType(IDummyRepo repo)
         {
             Name = "Transaction";
             Field(o => o.ID).Name("id").Description("The transaction ID.");

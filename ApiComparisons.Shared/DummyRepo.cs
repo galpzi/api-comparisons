@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace ApiComparisons.Shared
 {
-    public class TransactionRepo : ITransactionRepo
+    public class DummyRepo : IDummyRepo
     {
-        private readonly TransactionContext context;
-        private readonly ILogger<TransactionRepo> logger;
+        private readonly DummyContext context;
+        private readonly ILogger<DummyRepo> logger;
 
-        public TransactionRepo(ILogger<TransactionRepo> logger, TransactionContext context)
+        public DummyRepo(ILogger<DummyRepo> logger, DummyContext context)
         {
             this.logger = logger;
             this.context = context;

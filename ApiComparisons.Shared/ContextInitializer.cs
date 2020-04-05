@@ -21,7 +21,7 @@ namespace ApiComparisons.Shared
             this.transactions = transactions;
         }
 
-        public void Seed(TransactionContext context)
+        public void Seed(DummyContext context)
         {
             var random = new Random();
             foreach (var number in Enumerable.Range(1, this.persons))

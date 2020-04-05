@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>    
-    <!--Include all Transactions protobufs-->
+    <!--Include all dummy protobufs-->
     <Protobuf Include="..\ApiComparisons.Shared\GRPC\Protos\*.proto" ProtoRoot="..\ApiComparisons.Shared\GRPC\Protos\" GrpcServices="Server" />
     <!--Sample greet protobuf-->
     <Protobuf Include="..\ApiComparisons.Shared\GRPC\Protos\greet.proto" Link="greet.proto" GrpcServices="Server" />

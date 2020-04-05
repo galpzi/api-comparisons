@@ -7,9 +7,9 @@ using System;
 
 namespace ApiComparisons.Shared.GraphQL
 {
-    public class TransactionMutation : ObjectGraphType
+    public class DummyMutation : ObjectGraphType
     {
-        public TransactionMutation(IDummyRepo repo)
+        public DummyMutation(IDummyRepo repo)
         {
             Name = "TransactionsMutation";
             FieldAsync<PersonType>(

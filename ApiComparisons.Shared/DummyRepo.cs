@@ -10,10 +10,10 @@ namespace ApiComparisons.Shared
 {
     public class DummyRepo : IDummyRepo
     {
-        private readonly TransactionContext context;
+        private readonly DummyContext context;
         private readonly ILogger<DummyRepo> logger;
 
-        public DummyRepo(ILogger<DummyRepo> logger, TransactionContext context)
+        public DummyRepo(ILogger<DummyRepo> logger, DummyContext context)
         {
             this.logger = logger;
             this.context = context;

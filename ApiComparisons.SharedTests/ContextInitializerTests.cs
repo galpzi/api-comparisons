@@ -17,11 +17,11 @@ namespace ApiComparisons.Shared.Tests
             var transactions = 10;
             var productsPerStore = 100;
             var purchasesPerTransaction = 10;
-            var options = new DbContextOptionsBuilder<TransactionContext>()
+            var options = new DbContextOptionsBuilder<DummyContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
-            using var context = new TransactionContext(options);
+            using var context = new DummyContext(options);
             var initializer = new ContextInitializer(persons, stores, productsPerStore, purchasesPerTransaction, transactions);
             initializer.Seed(context);
 

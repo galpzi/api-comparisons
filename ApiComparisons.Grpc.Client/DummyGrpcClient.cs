@@ -1,9 +1,8 @@
-﻿using ApiComparisons.Shared.DAL;
-using ApiComparisons.Shared.GRPC;
+﻿using ApiComparisons.Shared.GRPC;
+using ApiComparisons.Shared.GRPC.Models;
 using Google.Protobuf.WellKnownTypes;
 using Microsoft.Extensions.Options;
 using System;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace ApiComparisons.Grpc.Client
@@ -16,33 +15,20 @@ namespace ApiComparisons.Grpc.Client
 
         public Dummy.DummyClient Client => new Dummy.DummyClient(this.channel);
 
-        internal static void Print(dynamic response) =>
-            Console.WriteLine((string)JsonSerializer.Serialize(response, new JsonSerializerOptions { WriteIndented = true }));
-
         #region People
-        public async Task GetPeopleAsync(Guid personID)
-        {
-            var response = await Client.GetPeopleAsync(new Shared.GRPC.Models.PersonRequest { Id = personID.ToString() });
-            Print(response);
-        }
+        public async Task<PersonResponse> GetPeopleAsync(Guid personID) =>
+            await Client.GetPeopleAsync(new PersonRequest { Id = personID.ToString() });
 
-        public async Task AddPersonAsync(Person person)
-        {
-            var response = await Client.AddPersonAsync(new Shared.GRPC.Models.PersonRequest { Name = person.Name });
-            Print(response);
-        }
+        public async Task<PersonResponse> AddPersonAsync(Shared.DAL.Person person) =>
+            await Client.AddPersonAsync(new PersonRequest { Name = person.Name });
 
-        public async Task RemovePersonAsync(Person person)
-        {
-            var response = await Client.RemovePersonAsync(new Shared.GRPC.Models.PersonRequest { Id = person.ID.ToString() });
-            Print(response);
-        }
+        public async Task<PersonResponse> RemovePersonAsync(Shared.DAL.Person person) =>
+            await Client.RemovePersonAsync(new PersonRequest { Id = person.ID.ToString() });
         #endregion
 
         #region Stores
-        public async Task GetStoresAsync(Product product)
-        {
-            var response = await Client.GetStoreAsync(new Shared.GRPC.Models.StoreRequest
+        public async Task<StoreResponse> GetStoresAsync(Shared.DAL.Product product) =>
+            await Client.GetStoreAsync(new StoreRequest
             {
                 Product = new Shared.GRPC.Models.Product
                 {
@@ -50,12 +36,9 @@ namespace ApiComparisons.Grpc.Client
                     StoreId = product.StoreID.ToString()
                 }
             });
-            Print(response);
-        }
 
-        public async Task AddStoreAsync(Store store)
-        {
-            var response = await Client.AddStoreAsync(new Shared.GRPC.Models.StoreRequest
+        public async Task<StoreResponse> AddStoreAsync(Shared.DAL.Store store) =>
+            await Client.AddStoreAsync(new StoreRequest
             {
                 Store = new Shared.GRPC.Models.Store
                 {
@@ -66,12 +49,9 @@ namespace ApiComparisons.Grpc.Client
                     Created = Timestamp.FromDateTime(store.Created)
                 }
             });
-            Print(response);
-        }
 
-        public async Task RemoveStoreAsync(Store store)
-        {
-            var response = await Client.RemoveStoreAsync(new Shared.GRPC.Models.StoreRequest
+        public async Task<StoreResponse> RemoveStoreAsync(Shared.DAL.Store store) =>
+            await Client.RemoveStoreAsync(new StoreRequest
             {
                 Store = new Shared.GRPC.Models.Store
                 {
@@ -82,14 +62,11 @@ namespace ApiComparisons.Grpc.Client
                     Created = Timestamp.FromDateTime(store.Created)
                 }
             });
-            Print(response);
-        }
         #endregion
 
         #region Products
-        public async Task GetProductAsync(Purchase purchase)
-        {
-            var response = await Client.GetProductAsync(new Shared.GRPC.Models.ProductRequest
+        public async Task<ProductResponse> GetProductAsync(Shared.DAL.Purchase purchase) =>
+            await Client.GetProductAsync(new ProductRequest
             {
                 Purchase = new Shared.GRPC.Models.Purchase
                 {
@@ -97,25 +74,15 @@ namespace ApiComparisons.Grpc.Client
                     TransactionId = purchase.TransactionID.ToString()
                 }
             });
-            Print(response);
-        }
 
-        public async Task AddProductAsync(Product product)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<ProductResponse> AddProductAsync(Shared.DAL.Product product) => throw new NotImplementedException();
 
-        public async Task RemoveProductAsync(Product product)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<ProductResponse> RemoveProductAsync(Shared.DAL.Product product) => throw new NotImplementedException();
         #endregion
 
         #region Purchases        
-        public async Task GetPurchasesAsync(Transaction transaction)
-        {
-            dynamic response;
-            response = await Client.GetPurchasesAsync(new Shared.GRPC.Models.PurchaseRequest
+        public async Task<PurchaseResponse> GetPurchasesAsync(Shared.DAL.Transaction transaction) =>
+            await Client.GetPurchasesAsync(new PurchaseRequest
             {
                 Transaction = new Shared.GRPC.Models.Transaction
                 {
@@ -123,12 +90,9 @@ namespace ApiComparisons.Grpc.Client
                     PersonId = transaction.PersonID.ToString()
                 }
             });
-            Print(response);
-        }
 
-        public async Task AddPurchaseAsync(Purchase purchase)
-        {
-            var response = await Client.AddPurchaseAsync(new Shared.GRPC.Models.PurchaseRequest
+        public async Task<PurchaseResponse> AddPurchaseAsync(Shared.DAL.Purchase purchase) =>
+            await Client.AddPurchaseAsync(new PurchaseRequest
             {
                 Purchase = new Shared.GRPC.Models.Purchase
                 {
@@ -138,12 +102,9 @@ namespace ApiComparisons.Grpc.Client
                     Count = purchase.Count
                 }
             });
-            Print(response);
-        }
 
-        public async Task RemovePurchaseAsync(Purchase purchase)
-        {
-            var response = await Client.RemovePurchaseAsync(new Shared.GRPC.Models.PurchaseRequest
+        public async Task<PurchaseResponse> RemovePurchaseAsync(Shared.DAL.Purchase purchase) =>
+            await Client.RemovePurchaseAsync(new PurchaseRequest
             {
                 Purchase = new Shared.GRPC.Models.Purchase
                 {
@@ -151,23 +112,17 @@ namespace ApiComparisons.Grpc.Client
                     TransactionId = purchase.TransactionID.ToString()
                 }
             });
-            Print(response);
-        }
         #endregion
 
         #region Transactions      
-        public async Task GetTransactionsAsync(Guid personID)
-        {
-            var response = await Client.GetTransactionsAsync(new Shared.GRPC.Models.TransactionRequest
+        public async Task<TransactionResponse> GetTransactionsAsync(Guid personID) =>
+            await Client.GetTransactionsAsync(new TransactionRequest
             {
                 Person = new Shared.GRPC.Models.Person { Id = personID.ToString() }
             });
-            Print(response);
-        }
 
-        public async Task AddTransactionAsync(Transaction transaction)
-        {
-            var response = await Client.AddTransactionAsync(new Shared.GRPC.Models.TransactionRequest
+        public async Task<TransactionResponse> AddTransactionAsync(Shared.DAL.Transaction transaction) =>
+            await Client.AddTransactionAsync(new TransactionRequest
             {
                 Transaction = new Shared.GRPC.Models.Transaction
                 {
@@ -175,12 +130,9 @@ namespace ApiComparisons.Grpc.Client
                     Total = Convert.ToInt32(transaction.Total)
                 }
             });
-            Print(response);
-        }
 
-        public async Task RemoveTransactionAsync(Transaction transaction)
-        {
-            var response = await Client.RemoveTransactionAsync(new Shared.GRPC.Models.TransactionRequest
+        public async Task<TransactionResponse> RemoveTransactionAsync(Shared.DAL.Transaction transaction) =>
+            await Client.RemoveTransactionAsync(new TransactionRequest
             {
                 Transaction = new Shared.GRPC.Models.Transaction
                 {
@@ -188,8 +140,6 @@ namespace ApiComparisons.Grpc.Client
                     PersonId = transaction.PersonID.ToString()
                 }
             });
-            Print(response);
-        }
         #endregion
     }
 }

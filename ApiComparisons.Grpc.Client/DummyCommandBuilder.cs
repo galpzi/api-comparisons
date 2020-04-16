@@ -39,21 +39,21 @@ namespace ApiComparisons.Grpc.Client
             people.Handler = CommandHandler.Create<IHost, Guid>(async (host, personID) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.GetPeopleAsync(personID);
+                Print(await client.GetPeopleAsync(personID));
             });
 
             var add = new Command("add", "Add a person.") { new Option<string>("--name", "The name of the person to add.") { Required = true } };
             add.Handler = CommandHandler.Create<IHost, Person>(async (host, person) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.AddPersonAsync(person);
+                Print(await client.AddPersonAsync(person));
             });
 
             var remove = new Command("remove", "Remove a person.") { new Option<Guid>("--id", "The ID of the person to remove.") { Required = true } };
             remove.Handler = CommandHandler.Create<IHost, Person>(async (host, person) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.RemovePersonAsync(person);
+                Print(await client.RemovePersonAsync(person));
             });
             people.Add(add);
             people.Add(remove);
@@ -70,7 +70,7 @@ namespace ApiComparisons.Grpc.Client
             stores.Handler = CommandHandler.Create<IHost, Product>(async (host, product) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.GetStoresAsync(product);
+                Print(await client.GetStoresAsync(product));
             });
 
             var add = new Command("add", "Add a store.")
@@ -82,7 +82,7 @@ namespace ApiComparisons.Grpc.Client
             add.Handler = CommandHandler.Create<IHost, Store>(async (host, store) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.AddStoreAsync(store);
+                Print(await client.AddStoreAsync(store));
             });
 
             var remove = new Command("remove", "Remove a store.")
@@ -92,7 +92,7 @@ namespace ApiComparisons.Grpc.Client
             remove.Handler = CommandHandler.Create<IHost, Store>(async (host, store) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.RemoveStoreAsync(store);
+                Print(await client.RemoveStoreAsync(store));
             });
             stores.Add(add);
             stores.Add(remove);
@@ -109,7 +109,7 @@ namespace ApiComparisons.Grpc.Client
             products.Handler = CommandHandler.Create<IHost, Purchase>(async (host, purchase) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.GetProductAsync(purchase);
+                Print(await client.GetProductAsync(purchase));
             });
 
             var add = new Command("add", "Add a product.")
@@ -118,7 +118,7 @@ namespace ApiComparisons.Grpc.Client
             add.Handler = CommandHandler.Create<IHost, Product>(async (host, product) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.AddProductAsync(product);
+                Print(await client.AddProductAsync(product));
             });
 
             var remove = new Command("remove", "Remove a product.")
@@ -127,7 +127,7 @@ namespace ApiComparisons.Grpc.Client
             remove.Handler = CommandHandler.Create<IHost, Product>(async (host, product) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.RemoveProductAsync(product);
+                Print(await client.RemoveProductAsync(product));
             });
             products.Add(add);
             products.Add(remove);
@@ -144,7 +144,7 @@ namespace ApiComparisons.Grpc.Client
             purchases.Handler = CommandHandler.Create<IHost, Transaction>(async (host, transaction) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.GetPurchasesAsync(transaction);
+                Print(await client.GetPurchasesAsync(transaction));
             });
             var add = new Command("add", "Add a purchase.")
             {
@@ -156,7 +156,7 @@ namespace ApiComparisons.Grpc.Client
             add.Handler = CommandHandler.Create<IHost, Purchase>(async (host, purchase) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.AddPurchaseAsync(purchase);
+                Print(await client.AddPurchaseAsync(purchase));
             });
             var remove = new Command("remove", "Remove a purchase.")
             {
@@ -166,7 +166,7 @@ namespace ApiComparisons.Grpc.Client
             remove.Handler = CommandHandler.Create<IHost, Purchase>(async (host, purchase) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.RemovePurchaseAsync(purchase);
+                Print(await client.RemovePurchaseAsync(purchase));
             });
             purchases.Add(add);
             purchases.Add(remove);
@@ -182,7 +182,7 @@ namespace ApiComparisons.Grpc.Client
             transactions.Handler = CommandHandler.Create<IHost, Guid>(async (host, personID) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.GetTransactionsAsync(personID);
+                Print(await client.GetTransactionsAsync(personID));
             });
 
             var add = new Command("add", "Add a transaction.")
@@ -193,7 +193,7 @@ namespace ApiComparisons.Grpc.Client
             add.Handler = CommandHandler.Create<IHost, Transaction>(async (host, transaction) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.AddTransactionAsync(transaction);
+                Print(await client.AddTransactionAsync(transaction));
             });
 
             var remove = new Command("remove", "Remove a transaction.")
@@ -204,7 +204,7 @@ namespace ApiComparisons.Grpc.Client
             remove.Handler = CommandHandler.Create<IHost, Transaction>(async (host, transaction) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                await client.RemoveTransactionAsync(transaction);
+                Print(await client.RemoveTransactionAsync(transaction));
             });
             transactions.Add(add);
             transactions.Add(remove);

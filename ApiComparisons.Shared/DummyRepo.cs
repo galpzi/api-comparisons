@@ -30,7 +30,13 @@ namespace ApiComparisons.Shared
 
         public async Task<IEnumerable<Transaction>> GetTransactionsAsync() => await this.context.Transactions.ToListAsync();
 
-        public async Task<Person> GetPersonAsync(Guid id) => await this.context.Persons.FindAsync(id);
+        public async Task<Person> GetPersonAsync(Guid id)
+        {
+            if (id == Guid.Empty)
+                return await this.context.Persons.FirstAsync();
+
+            return await this.context.Persons.FindAsync(id);
+        }
 
         public async Task<Store> GetStoreAsync(Product product) => await this.context.Stores.FindAsync(product.StoreID);
 

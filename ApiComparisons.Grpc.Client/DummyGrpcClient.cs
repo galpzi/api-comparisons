@@ -30,7 +30,7 @@ namespace ApiComparisons.Grpc.Client
         public async Task<StoreResponse> GetStoresAsync(Shared.DAL.Product product) =>
             await Client.GetStoreAsync(new StoreRequest
             {
-                Product = new Shared.GRPC.Models.Product
+                Product = new Product
                 {
                     Id = product.ID.ToString(),
                     StoreId = product.StoreID.ToString()
@@ -40,7 +40,7 @@ namespace ApiComparisons.Grpc.Client
         public async Task<StoreResponse> AddStoreAsync(Shared.DAL.Store store) =>
             await Client.AddStoreAsync(new StoreRequest
             {
-                Store = new Shared.GRPC.Models.Store
+                Store = new Store
                 {
                     Name = store.Name,
                     Id = store.ID.ToString(),
@@ -53,7 +53,7 @@ namespace ApiComparisons.Grpc.Client
         public async Task<StoreResponse> RemoveStoreAsync(Shared.DAL.Store store) =>
             await Client.RemoveStoreAsync(new StoreRequest
             {
-                Store = new Shared.GRPC.Models.Store
+                Store = new Store
                 {
                     Name = store.Name,
                     Id = store.ID.ToString(),
@@ -65,10 +65,10 @@ namespace ApiComparisons.Grpc.Client
         #endregion
 
         #region Products
-        public async Task<ProductResponse> GetProductAsync(Shared.DAL.Purchase purchase) =>
+        public async Task<ProductResponse> GetProductsAsync(Shared.DAL.Purchase purchase) =>
             await Client.GetProductAsync(new ProductRequest
             {
-                Purchase = new Shared.GRPC.Models.Purchase
+                Purchase = new Purchase
                 {
                     ProductId = purchase.ProductID.ToString(),
                     TransactionId = purchase.TransactionID.ToString()
@@ -84,7 +84,7 @@ namespace ApiComparisons.Grpc.Client
         public async Task<PurchaseResponse> GetPurchasesAsync(Shared.DAL.Transaction transaction) =>
             await Client.GetPurchasesAsync(new PurchaseRequest
             {
-                Transaction = new Shared.GRPC.Models.Transaction
+                Transaction = new Transaction
                 {
                     Id = transaction.ID.ToString(),
                     PersonId = transaction.PersonID.ToString()
@@ -94,7 +94,7 @@ namespace ApiComparisons.Grpc.Client
         public async Task<PurchaseResponse> AddPurchaseAsync(Shared.DAL.Purchase purchase) =>
             await Client.AddPurchaseAsync(new PurchaseRequest
             {
-                Purchase = new Shared.GRPC.Models.Purchase
+                Purchase = new Purchase
                 {
                     ProductId = purchase.ProductID.ToString(),
                     TransactionId = purchase.TransactionID.ToString(),
@@ -106,7 +106,7 @@ namespace ApiComparisons.Grpc.Client
         public async Task<PurchaseResponse> RemovePurchaseAsync(Shared.DAL.Purchase purchase) =>
             await Client.RemovePurchaseAsync(new PurchaseRequest
             {
-                Purchase = new Shared.GRPC.Models.Purchase
+                Purchase = new Purchase
                 {
                     ProductId = purchase.ProductID.ToString(),
                     TransactionId = purchase.TransactionID.ToString()
@@ -118,13 +118,13 @@ namespace ApiComparisons.Grpc.Client
         public async Task<TransactionResponse> GetTransactionsAsync(Guid personID) =>
             await Client.GetTransactionsAsync(new TransactionRequest
             {
-                Person = new Shared.GRPC.Models.Person { Id = personID.ToString() }
+                Person = new Person { Id = personID.ToString() }
             });
 
         public async Task<TransactionResponse> AddTransactionAsync(Shared.DAL.Transaction transaction) =>
             await Client.AddTransactionAsync(new TransactionRequest
             {
-                Transaction = new Shared.GRPC.Models.Transaction
+                Transaction = new Transaction
                 {
                     PersonId = transaction.PersonID.ToString(),
                     Total = Convert.ToInt32(transaction.Total)
@@ -134,7 +134,7 @@ namespace ApiComparisons.Grpc.Client
         public async Task<TransactionResponse> RemoveTransactionAsync(Shared.DAL.Transaction transaction) =>
             await Client.RemoveTransactionAsync(new TransactionRequest
             {
-                Transaction = new Shared.GRPC.Models.Transaction
+                Transaction = new Transaction
                 {
                     Id = transaction.ID.ToString(),
                     PersonId = transaction.PersonID.ToString()

@@ -109,7 +109,7 @@ namespace ApiComparisons.Grpc.Client
             products.Handler = CommandHandler.Create<IHost, Purchase>(async (host, purchase) =>
             {
                 var client = host.Services.GetRequiredService<IDummyGrpcClient>();
-                Print(await client.GetProductAsync(purchase));
+                Print(await client.GetProductsAsync(purchase));
             });
 
             var add = new Command("add", "Add a product.")

@@ -64,38 +64,23 @@ namespace ApiComparisons.Grpc
                 throw new ArgumentException($"invalid person id {request.Person.Id}");
 
             var response = new TransactionResponse();
-            if (personID == Guid.Empty)
-            {
-                var transactions = await this.repo.GetTransactionsAsync();
-                var repeated = transactions.Select(o => new Transaction
-                {
-                    Id = o.ID.ToString(),
-                    PersonId = o.PersonID.ToString(),
-                    Total = Convert.ToInt32(o.Total),
-                    Created = Timestamp.FromDateTime(o.Created)
-                });
-                response.Transactions.AddRange(repeated);
-                return response;
-            }
-            else
-            {
-                var person = new Shared.DAL.Person
+            var transactions = personID == Guid.Empty ?
+                await this.repo.GetTransactionsAsync() :
+                await this.repo.GetTransactionsAsync(new Shared.DAL.Person
                 {
                     ID = personID,
                     Name = request.Person.Name,
                     Created = request.Person.Created.ToDateTime()
-                };
-                var transactions = await this.repo.GetTransactionsAsync(person);
-                var repeated = transactions.Select(o => new Transaction
-                {
-                    Id = o.ID.ToString(),
-                    PersonId = o.PersonID.ToString(),
-                    Total = Convert.ToInt32(o.Total),
-                    Created = Timestamp.FromDateTime(o.Created)
                 });
-                response.Transactions.AddRange(repeated);
-                return response;
-            }
+            var repeated = transactions.Select(o => new Transaction
+            {
+                Id = o.ID.ToString(),
+                PersonId = o.PersonID.ToString(),
+                Total = Convert.ToInt32(o.Total),
+                Created = Timestamp.FromDateTime(o.Created)
+            });
+            response.Transactions.AddRange(repeated);
+            return response;
         }
 
         public override async Task<PurchaseResponse> GetPurchases(PurchaseRequest request, ServerCallContext context)
@@ -104,8 +89,9 @@ namespace ApiComparisons.Grpc
                 throw new ArgumentException($"invalid transaction id {request.Transaction.Id}");
 
             var response = new PurchaseResponse();
-            var transaction = new Shared.DAL.Transaction { ID = id };
-            var purchases = await this.repo.GetPurchasesAsync(transaction);
+            var purchases = id == Guid.Empty ?
+                await this.repo.GetPurchasesAsync() :
+                await this.repo.GetPurchasesAsync(new Shared.DAL.Transaction { ID = id });
             var repeated = purchases.Select(o => new Purchase
             {
                 ProductId = o.ProductID.ToString(),
@@ -126,11 +112,15 @@ namespace ApiComparisons.Grpc
             if (!Guid.TryParse(request.Purchase.TransactionId, out Guid transactionID))
                 throw new ArgumentException($"invalid purchase transaction id {request.Purchase.TransactionId}");
 
-            var purchase = new Shared.DAL.Purchase { ProductID = productID, TransactionID = transactionID };
-            var product = await this.repo.GetProductAsync(purchase);
-            return new ProductResponse
+            var response = new ProductResponse();
+            if (productID == Guid.Empty || transactionID == Guid.Empty)
             {
-                Product = new Product
+                var product = await this.repo.GetProductAsync(new Shared.DAL.Purchase
+                {
+                    ProductID = productID,
+                    TransactionID = transactionID
+                });
+                response.Products.Add(new Product
                 {
                     Id = product.ID.ToString(),
                     StoreId = product.StoreID.ToString(),
@@ -138,8 +128,23 @@ namespace ApiComparisons.Grpc
                     Description = product.Description,
                     Price = Convert.ToInt32(product.Price),
                     Created = Timestamp.FromDateTime(product.Created)
-                }
-            };
+                });
+            }
+            else
+            {
+                var products = await this.repo.GetProductsAsync();
+                var repeated = products.Select(o => new Product
+                {
+                    Id = o.ID.ToString(),
+                    StoreId = o.StoreID.ToString(),
+                    Name = o.Name,
+                    Description = o.Description,
+                    Price = Convert.ToInt32(o.Price),
+                    Created = Timestamp.FromDateTime(o.Created)
+                });
+                response.Products.AddRange(repeated);
+            }
+            return response;
         }
 
         public override async Task<StoreResponse> GetStore(StoreRequest request, ServerCallContext context)
@@ -150,19 +155,37 @@ namespace ApiComparisons.Grpc
             if (!Guid.TryParse(request.Product.StoreId, out Guid storeID))
                 throw new ArgumentException($"invalid product store id {request.Product.StoreId}");
 
-            var product = new Shared.DAL.Product { ID = id, StoreID = storeID };
-            var store = await this.repo.GetStoreAsync(product);
-            return new StoreResponse
+            var response = new StoreResponse();
+            if (id == Guid.Empty || storeID == Guid.Empty)
             {
-                Store = new Store
+                var store = await this.repo.GetStoreAsync(new Shared.DAL.Product
+                {
+                    ID = id,
+                    StoreID = storeID
+                });
+                response.Stores.Add(new Store
                 {
                     Id = store.ID.ToString(),
                     Name = store.Name,
                     Country = store.Country,
                     Address = store.Address,
                     Created = Timestamp.FromDateTime(store.Created)
-                }
-            };
+                });
+            }
+            else
+            {
+                var stores = await this.repo.GetStoresAsync();
+                var repeated = stores.Select(o => new Store
+                {
+                    Id = o.ID.ToString(),
+                    Name = o.Name,
+                    Country = o.Country,
+                    Address = o.Address,
+                    Created = Timestamp.FromDateTime(o.Created)
+                });
+                response.Stores.AddRange(repeated);
+            }
+            return response;
         }
         #endregion
 
@@ -219,13 +242,16 @@ namespace ApiComparisons.Grpc
             var entry = await this.repo.AddStoreAsync(store);
             return new StoreResponse
             {
-                Store = new Store
+                Stores =
                 {
-                    Id = entry.ID.ToString(),
-                    Name = entry.Name,
-                    Country = entry.Country,
-                    Address = entry.Address,
-                    Created = Timestamp.FromDateTime(entry.Created)
+                    new Store
+                    {
+                        Id = entry.ID.ToString(),
+                        Name = entry.Name,
+                        Country = entry.Country,
+                        Address = entry.Address,
+                        Created = Timestamp.FromDateTime(entry.Created)
+                    }
                 }
             };
         }
@@ -238,7 +264,7 @@ namespace ApiComparisons.Grpc
             var response = new StoreResponse();
             var store = await this.repo.RemoveStoreAsync(id);
             if (store != null)
-                response.Store = request.Store;
+                response.Stores.Add(request.Store);
 
             return response;
         }
@@ -258,13 +284,15 @@ namespace ApiComparisons.Grpc
             var entry = await this.repo.AddProductAsync(product);
             return new ProductResponse
             {
-                Product = new Product
-                {
-                    Name = entry.Name,
-                    Id = entry.ID.ToString(),
-                    StoreId = entry.StoreID.ToString(),
-                    Price = Convert.ToInt32(entry.Price),
-                    Created = Timestamp.FromDateTime(entry.Created),
+                Products = {
+                    new Product
+                    {
+                        Name = entry.Name,
+                        Id = entry.ID.ToString(),
+                        StoreId = entry.StoreID.ToString(),
+                        Price = Convert.ToInt32(entry.Price),
+                        Created = Timestamp.FromDateTime(entry.Created),
+                    }
                 }
             };
         }
@@ -277,7 +305,7 @@ namespace ApiComparisons.Grpc
             var response = new ProductResponse();
             var product = await this.repo.RemoveProductAsync(id);
             if (product != null)
-                response.Product = request.Product;
+                response.Products.Add(request.Product);
             return response;
         }
 

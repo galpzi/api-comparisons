@@ -12,7 +12,7 @@ namespace ApiComparisons.Grpc.Client
         Task<StoreResponse> GetStoresAsync(Shared.DAL.Product product);
         Task<StoreResponse> AddStoreAsync(Shared.DAL.Store store);
         Task<StoreResponse> RemoveStoreAsync(Shared.DAL.Store store);
-        Task<ProductResponse> GetProductAsync(Shared.DAL.Purchase purchase);
+        Task<ProductResponse> GetProductsAsync(Shared.DAL.Purchase purchase);
         Task<ProductResponse> AddProductAsync(Shared.DAL.Product product);
         Task<ProductResponse> RemoveProductAsync(Shared.DAL.Product product);
         Task<PurchaseResponse> GetPurchasesAsync(Shared.DAL.Transaction transaction);

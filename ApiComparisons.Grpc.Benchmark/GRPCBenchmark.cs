@@ -20,7 +20,7 @@ namespace ApiComparisons.Grpc.Benchmark
         {
             this.client = new DummyGrpcClient(Options.Create(new AppSettings
             {
-                ServerUri = "http://localhost:5000"
+                ServerUri = "https://localhost:5001"
             }));
         }
 

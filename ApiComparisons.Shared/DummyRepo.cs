@@ -34,13 +34,22 @@ namespace ApiComparisons.Shared
         {
             if (id == Guid.Empty)
                 return await this.context.Persons.FirstAsync();
-
             return await this.context.Persons.FindAsync(id);
         }
 
-        public async Task<Store> GetStoreAsync(Product product) => await this.context.Stores.FindAsync(product.StoreID);
+        public async Task<Store> GetStoreAsync(Product product)
+        {
+            if (product.StoreID == Guid.Empty)
+                return await this.context.Stores.FirstAsync();
+            return await this.context.Stores.FindAsync(product.StoreID);
+        }
 
-        public async Task<Product> GetProductAsync(Purchase purchase) => await this.context.Products.FindAsync(purchase.ProductID);
+        public async Task<Product> GetProductAsync(Purchase purchase)
+        {
+            if (purchase.ProductID == Guid.Empty)
+                return await this.context.Products.FirstAsync();
+            return await this.context.Products.FindAsync(purchase.ProductID);
+        }
 
         public async Task<IEnumerable<Transaction>> GetTransactionsAsync(Person person) =>
             await this.context.Transactions

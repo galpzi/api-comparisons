@@ -7,9 +7,40 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ApiComparisons.Grpc
 {
+    public class InitializerSettings
+    {
+        public int Persons { get; set; }
+        public int Stores { get; set; }
+        public int Products { get; set; }
+        public int Purchases { get; set; }
+        public int Transactions { get; set; }
+    }
+
+    public class ContextInitializationService : IHostedService
+    {
+        private readonly DummyContext context;
+
+        public ContextInitializationService(DummyContext context)
+        {
+            this.context = context;
+        }
+
+        public Task StartAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class Startup
     {
         // This method gets called by the runtime. Use this method to add services to the container.

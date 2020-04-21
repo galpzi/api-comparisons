@@ -16,10 +16,15 @@ namespace ApiComparisons.GraphQL
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+        public Startup(IWebHostEnvironment environment)
         {
-            Configuration = configuration;
             Environment = environment;
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false)
+                .AddJsonFile($"appsettings.{Environment.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables()
+                .Build();
         }
 
         public IConfiguration Configuration { get; }
@@ -28,20 +33,11 @@ namespace ApiComparisons.GraphQL
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // TODO: move to IHostedService
-            var options = new DbContextOptionsBuilder<DummyContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-                .Options;
-            using var context = new DummyContext(options);
-            var initializer = new ContextInitializer(
-                persons: 100,
-                stores: 1,
-                products: 1,
-                purchases: 1,
-                transactions: 1);
-            initializer.Seed(context);
-
-            services.AddSingleton(provider => new DummyContext(options));
+            services.AddHostedService<InitializerService>();
+            services.Configure<InitializerSettings>(Configuration.GetSection("Settings:Initializer"));
+            services.AddSingleton(provider => new DummyContext(new DbContextOptionsBuilder<DummyContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options));
             services.AddSingleton<IDummyRepo, DummyRepo>();
             services.AddSingleton<DummyQuery>();
             services.AddSingleton<DummyMutation>();

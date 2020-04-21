@@ -17,7 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiComparisons.SharedTests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiComparisons.GraphQL.Benchmark", "ApiComparisons.GraphQL.Benchmark\ApiComparisons.GraphQL.Benchmark.csproj", "{A6B6E702-0C7B-43B4-8FE4-6346972BEF54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiComparisons.Grpc.Benchmark", "ApiComparisons.Grpc.Benchmark\ApiComparisons.Grpc.Benchmark.csproj", "{236BFE78-DFE6-4F35-8A2D-C33214D3C652}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiComparisons.Grpc.Benchmark", "ApiComparisons.Grpc.Benchmark\ApiComparisons.Grpc.Benchmark.csproj", "{236BFE78-DFE6-4F35-8A2D-C33214D3C652}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Benchmarks", "Benchmarks", "{D3CF5A68-8AAC-4387-A17D-1DE1BCF74938}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{2BB4BE80-A97D-460A-B399-D88A1F4F4F57}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{6AB49E57-A18E-4FA0-9AFE-2649D4AB7A4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +66,16 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AE84932D-2DDC-4C5D-B1D3-9042BD61EACB} = {6AB49E57-A18E-4FA0-9AFE-2649D4AB7A4C}
+		{A11AF9A8-DA41-40BB-9D9C-7E4BC121B6E5} = {6AB49E57-A18E-4FA0-9AFE-2649D4AB7A4C}
+		{EACDAD1A-D0F5-4BA5-874B-8F445126E491} = {2BB4BE80-A97D-460A-B399-D88A1F4F4F57}
+		{63061D8A-C6D9-474F-A0A5-F50563515E92} = {6AB49E57-A18E-4FA0-9AFE-2649D4AB7A4C}
+		{13AFED87-8BBB-4538-82E7-9F6276B8EAE2} = {2BB4BE80-A97D-460A-B399-D88A1F4F4F57}
+		{EAD88A60-F9D9-40A5-ADAF-95BFFC3F3567} = {2BB4BE80-A97D-460A-B399-D88A1F4F4F57}
+		{A6B6E702-0C7B-43B4-8FE4-6346972BEF54} = {D3CF5A68-8AAC-4387-A17D-1DE1BCF74938}
+		{236BFE78-DFE6-4F35-8A2D-C33214D3C652} = {D3CF5A68-8AAC-4387-A17D-1DE1BCF74938}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {08FEB577-E045-4621-B54A-0C6F17059DD9}

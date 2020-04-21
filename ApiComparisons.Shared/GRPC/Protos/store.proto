@@ -22,7 +22,7 @@ message StoreRequest {
     product.Product product = 2;
 }
 
-// The response containing the store
+// The response containing one or more stores
 message StoreResponse { 
-    Store store = 1;
+    repeated Store stores = 1;
 }

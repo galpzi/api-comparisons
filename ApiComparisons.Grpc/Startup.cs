@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -12,26 +13,30 @@ namespace ApiComparisons.Grpc
 {
     public class Startup
     {
+        public Startup(IWebHostEnvironment environment)
+        {
+            Environment = environment;
+            Configuration = new ConfigurationBuilder()
+                .SetBasePath(AppContext.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false)
+                .AddJsonFile($"appsettings.{Environment.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables()
+                .Build();
+        }
+
+        public IConfigurationRoot Configuration { get; }
+        public IWebHostEnvironment Environment { get; set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            // TODO: move to IHostedService
-            var options = new DbContextOptionsBuilder<DummyContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-                .Options;
-            using var context = new DummyContext(options);
-            var initializer = new ContextInitializer(
-                persons: 1,
-                stores: 1,
-                products: 10,
-                purchases: 1,
-                transactions: 1);
-            initializer.Seed(context);
-
             services.AddGrpc();
-            services.AddSingleton(provider => new DummyContext(options));
-            services.AddDbContext<DummyContext>(builder => builder.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+            services.AddHostedService<InitializerService>();
+            services.Configure<InitializerSettings>(Configuration.GetSection("Settings:Initializer"));
+            services.AddSingleton(provider => new DummyContext(new DbContextOptionsBuilder<DummyContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options));
             services.AddScoped<IDummyRepo, DummyRepo>();
         }
 
@@ -47,8 +52,6 @@ namespace ApiComparisons.Grpc
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>();
-                endpoints.MapGrpcService<StarWarsService>();
                 endpoints.MapGrpcService<DummyService>();
 
                 endpoints.MapGet("/", async context =>

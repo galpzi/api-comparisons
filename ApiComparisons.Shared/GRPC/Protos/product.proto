@@ -25,7 +25,7 @@ message ProductRequest {
     purchase.Purchase purchase = 2;
 }
 
-// The response containing the product
+// The response containing one or more products
 message ProductResponse { 
-    Product product = 1;
+    repeated Product products = 1;
 }

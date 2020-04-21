@@ -34,9 +34,9 @@ namespace ApiComparisons.GraphQL
                 .Options;
             using var context = new DummyContext(options);
             var initializer = new ContextInitializer(
-                persons: 1,
+                persons: 100,
                 stores: 1,
-                products: 10,
+                products: 1,
                 purchases: 1,
                 transactions: 1);
             initializer.Seed(context);

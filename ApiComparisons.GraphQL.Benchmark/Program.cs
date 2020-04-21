@@ -4,6 +4,6 @@ namespace ApiComparisons.GraphQL.Benchmark
 {
     class Program
     {
-        static void Main(string[] args) => BenchmarkRunner.Run<GraphQLBenchmark>();
+        static void Main(string[] args) => BenchmarkSwitcher.FromAssembly(typeof(GraphQLBenchmark).Assembly).Run(args);
     }
 }

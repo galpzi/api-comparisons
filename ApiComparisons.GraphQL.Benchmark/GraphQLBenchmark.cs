@@ -12,15 +12,29 @@ namespace ApiComparisons.GraphQL.Benchmark
     [AsciiDocExporter]
     public class GraphQLBenchmark
     {
-        [Params(100, 200)]
+        [Params(100, 500, 1000)]
         public int Iterations;
+        private GraphQLHttpClient client;
 
-        private readonly GraphQLHttpClient client;
-
-        public GraphQLBenchmark()
+        [GlobalSetup]
+        public void Setup()
         {
-            this.client = new GraphQLHttpClient("http://localhost:5000/graphql", new SystemTextJsonSerializer());
+            var graphqlUrl = string.Empty;
+            this.client = new GraphQLHttpClient(graphqlUrl, new SystemTextJsonSerializer());
         }
+
+        [Benchmark(Baseline = true)]
+        public async Task<dynamic> GetPeopleOnceAsync() => await this.client.SendQueryAsync<dynamic>(new GraphQLRequest
+        {
+            Query = @"
+            {
+                people {
+                id
+                name
+                created 
+                }
+            }"
+        });
 
         [Benchmark]
         public async Task GetPeopleAsync() => await SendRequestAsync(new GraphQLRequest
@@ -35,7 +49,7 @@ namespace ApiComparisons.GraphQL.Benchmark
             }"
         });
 
-        [Benchmark]
+        //[Benchmark]
         public async Task GetTransactionsAsync() => await SendRequestAsync(new GraphQLRequest
         {
             Query = @"
@@ -49,7 +63,7 @@ namespace ApiComparisons.GraphQL.Benchmark
             }"
         });
 
-        [Benchmark]
+        //[Benchmark]
         public async Task GetStoresAsync() => await SendRequestAsync(new GraphQLRequest
         {
             Query = @"
@@ -64,7 +78,7 @@ namespace ApiComparisons.GraphQL.Benchmark
             }"
         });
 
-        [Benchmark]
+        //[Benchmark]
         public async Task GetProductsAsync() => await SendRequestAsync(new GraphQLRequest
         {
             Query = @"
@@ -79,7 +93,7 @@ namespace ApiComparisons.GraphQL.Benchmark
             }"
         });
 
-        [Benchmark]
+        //[Benchmark]
         public async Task GetPurchasesAsync() => await SendRequestAsync(new GraphQLRequest
         {
             Query = @"
@@ -94,7 +108,7 @@ namespace ApiComparisons.GraphQL.Benchmark
             }"
         });
 
-        [Benchmark]
+        //[Benchmark]
         public async Task GetPersonTransactionsAsync() => await SendRequestAsync(new GraphQLRequest
         {
             Query = @"

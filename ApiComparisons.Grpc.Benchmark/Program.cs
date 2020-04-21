@@ -4,6 +4,6 @@ namespace ApiComparisons.Grpc.Benchmark
 {
     class Program
     {
-        static void Main(string[] args) => BenchmarkRunner.Run<GRPCBenchmark>();
+        static void Main(string[] args) => BenchmarkSwitcher.FromAssembly(typeof(GRPCBenchmark).Assembly).Run(args);
     }
 }

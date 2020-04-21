@@ -47,8 +47,6 @@ namespace ApiComparisons.Grpc
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>();
-                endpoints.MapGrpcService<StarWarsService>();
                 endpoints.MapGrpcService<DummyService>();
 
                 endpoints.MapGet("/", async context =>

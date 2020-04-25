@@ -1,6 +1,7 @@
 ﻿using ApiComparisons.Shared.GRPC;
 using ApiComparisons.Shared.GRPC.Models;
 using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
@@ -9,15 +10,21 @@ namespace ApiComparisons.Grpc.Client
 {
     public class DummyGrpcClient : GrpcClient, IDummyGrpcClient
     {
+        private readonly Metadata headers;
+
         public DummyGrpcClient(IOptions<AppSettings> options) : base(options)
         {
+            this.headers = new Metadata
+            {
+                { "grpc-internal-encoding-request", "gzip" }
+            };
         }
 
         public Dummy.DummyClient Client => new Dummy.DummyClient(this.channel);
 
         #region People
         public async Task<PersonResponse> GetPeopleAsync(Guid personID) =>
-            await Client.GetPeopleAsync(new PersonRequest { Id = personID.ToString() });
+            await Client.GetPeopleAsync(new PersonRequest { Id = personID.ToString() }, headers: this.headers);
 
         public async Task<PersonResponse> AddPersonAsync(Shared.DAL.Person person) =>
             await Client.AddPersonAsync(new PersonRequest { Name = person.Name });

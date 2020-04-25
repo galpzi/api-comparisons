@@ -31,7 +31,10 @@ namespace ApiComparisons.Grpc
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddGrpc();
+            services.AddGrpc(options =>
+            {
+                options.ResponseCompressionAlgorithm = "gzip";
+            });
             services.AddHostedService<InitializerService>();
             services.Configure<InitializerSettings>(Configuration.GetSection("Settings:Initializer"));
             services.AddSingleton(provider => new DummyContext(new DbContextOptionsBuilder<DummyContext>()

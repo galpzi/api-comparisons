@@ -1,12 +1,24 @@
 ﻿using ApiComparisons.Shared.DAL;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ApiComparisons.Shared
 {
     public class SimpleDummyRepo : IDummyRepo
     {
+        private readonly InitializerSettings settings;
+        private readonly List<Person> persons = new List<Person>();
+
+        public SimpleDummyRepo(IOptions<InitializerSettings> options)
+        {
+            this.settings = options.Value;
+            foreach (var number in Enumerable.Range(1, this.settings.Persons))
+                this.persons.Add(new Person { Created = DateTime.UtcNow, Name = $"Person {number}" });
+        }
+
         public Task<Person> AddPersonAsync(string name)
         {
             throw new NotImplementedException();
@@ -32,10 +44,7 @@ namespace ApiComparisons.Shared
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Person>> GetPeopleAsync()
-        {
-            throw new NotImplementedException();
-        }
+        public Task<IEnumerable<Person>> GetPeopleAsync() => Task.FromResult<IEnumerable<Person>>(this.persons);
 
         public Task<Person> GetPersonAsync(Guid id)
         {

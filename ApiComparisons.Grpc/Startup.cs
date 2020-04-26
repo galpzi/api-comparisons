@@ -1,9 +1,7 @@
 ﻿using ApiComparisons.Shared;
-using ApiComparisons.Shared.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,12 +30,8 @@ namespace ApiComparisons.Grpc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
-            services.AddHostedService<InitializerService>();
+            services.AddSingleton<IDataHelper, DummyDataHelper>();
             services.Configure<InitializerSettings>(Configuration.GetSection("Settings:Initializer"));
-            services.AddSingleton(provider => new DummyContext(new DbContextOptionsBuilder<DummyContext>()
-                .UseInMemoryDatabase(Guid.NewGuid().ToString())
-                .Options));
-            services.AddScoped<IDummyRepo, DummyRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +46,7 @@ namespace ApiComparisons.Grpc
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<DummyService>();
+                endpoints.MapGrpcService<SimpleDummyService>();
 
                 endpoints.MapGet("/", async context =>
                 {
